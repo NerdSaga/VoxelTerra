@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://b2pe4ckn0pcay"]
+
+[ext_resource type="Script" uid="uid://briwta3nb7kst" path="res://Main.cs" id="1_ig7tw"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0t2qn"]
+height = 1.3945313
+
+[node name="Main" type="Node3D" unique_id=1386321590]
+script = ExtResource("1_ig7tw")
+
+[node name="FreecamControler" type="CharacterBody3D" parent="." unique_id=345309180]
+
+[node name="Camera3D" type="Camera3D" parent="FreecamControler" unique_id=128382620]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.7934)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FreecamControler" unique_id=1619382013]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1829946, 0)
+shape = SubResource("CapsuleShape3D_0t2qn")
