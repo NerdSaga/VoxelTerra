@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dsl2m6od34f7c"]
+
+[ext_resource type="Script" uid="uid://ccvx086uirgbr" path="res://Scenes/PlayerControlers/FreecamControler.cs" id="1_lixr3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0t2qn"]
+height = 1.3945313
+
+[node name="FreecamControler" type="CharacterBody3D" unique_id=224436730 node_paths=PackedStringArray("Camera")]
+script = ExtResource("1_lixr3")
+Camera = NodePath("Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=300865876]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1573961184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1829946, 0)
+shape = SubResource("CapsuleShape3D_0t2qn")
