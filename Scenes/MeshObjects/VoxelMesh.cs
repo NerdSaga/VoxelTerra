@@ -35,7 +35,14 @@ public partial class VoxelMesh : MeshInstance3D
         }
     }
 
-    public void AddMesh(int surfaceID, MeshArrays meshData, Vector3 position, Vector3 rotation)
+    /// <summary>
+    /// Sets a mesh to a local position on the mesh.
+    /// </summary>
+    /// <param name="surfaceID"></param>
+    /// <param name="meshData"></param>
+    /// <param name="position"></param>
+    /// <param name="rotation"></param>
+    public void AddMeshArrays(int surfaceID, MeshArrays meshData, Vector3 position, Vector3 rotation)
     {
 
         SurfaceTool surface = surfaces[surfaceID];
@@ -62,16 +69,13 @@ public partial class VoxelMesh : MeshInstance3D
         surfaceVertexCounts[surfaceID] += meshData.VERTEX.Length;
     }
 
-    public void IndexSurfaces()
-    {
-        
-        for (int i = 0; i < surfaces.Length; i++)
-        {
-            SurfaceTool surface = surfaces[i];
-            surface.Index();
-        }
-    }
-
+    /// <summary>
+    /// Sets a single voxel to a local position on the mesh.
+    /// </summary>
+    /// <param name="surfaceID"></param>
+    /// <param name="position"></param>
+    /// <param name="uv"></param>
+    /// <param name="faces"></param>
     public void AddVoxel(int surfaceID, Vector3 position, Vector2[] uv, bool[] faces)
     {
         SurfaceTool surface = surfaces[surfaceID];
@@ -104,32 +108,6 @@ public partial class VoxelMesh : MeshInstance3D
             surface.AddIndex(nextIndex + 3);
 
             nextIndex += 4;
-
-            
-
-            // surface.AddTriangleFan(
-            //     vertices: new Vector3[]
-            //     {
-            //         VoxelTemplateData.VERTEX[0 + i * 4] + position,
-            //         VoxelTemplateData.VERTEX[1 + i * 4] + position,
-            //         VoxelTemplateData.VERTEX[2 + i * 4] + position,
-            //         VoxelTemplateData.VERTEX[3 + i * 4] + position,
-            //     },
-            //     normals: new Vector3[]
-            //     {
-            //         VoxelTemplateData.NORMAL[0 + i * 4],
-            //         VoxelTemplateData.NORMAL[1 + i * 4],
-            //         VoxelTemplateData.NORMAL[2 + i * 4],
-            //         VoxelTemplateData.NORMAL[3 + i * 4],
-            //     },
-            //     uvs: new Vector2[]
-            //     {
-            //         uv[0 + i * 4],
-            //         uv[1 + i * 4],
-            //         uv[2 + i * 4],
-            //         uv[3 + i * 4],
-            //     }
-            // );
         }
         surfaceVertexCounts[surfaceID] = nextIndex;
     }
@@ -150,9 +128,11 @@ public partial class VoxelMesh : MeshInstance3D
             surfaces[i] = new();
         }
 
+        // Populate surface vertex counts
         surfaceVertexCounts = new int[surfaces.Length];
         Array.Fill<int>(surfaceVertexCounts, 0);
 
+        // Set mesh to the custom array mesh.
         Mesh = mesh;
     }
 
