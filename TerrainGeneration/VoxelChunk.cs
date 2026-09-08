@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading;
 using VoxelTerra.CollisionObjects;
 using VoxelTerra.MeshObjects;
 
@@ -10,6 +11,7 @@ public partial class VoxelChunk : StaticBody3D
     public ushort[] Blocks {get;} = new ushort[16 * 16 * 256];
     public VoxelMesh VMesh;
     public VoxelCollision VCollision;
+    public AutoResetEvent OnFinishBuild = new(false);
 
     public void SetBlock(int chunkBlockIndex, ushort block)
     {
@@ -22,14 +24,6 @@ public partial class VoxelChunk : StaticBody3D
         chunkBlockIndex += position.Y * 256;
         chunkBlockIndex += position.Z * 16;
         SetBlock(chunkBlockIndex, block);
-    }
-
-
-    private bool readyToBuild = false;
-    public bool IsBuilding = false;
-    public void Build()
-    {
-        readyToBuild = true;
     }
 
     public override void _Ready()
@@ -45,13 +39,6 @@ public partial class VoxelChunk : StaticBody3D
 
     public override void _Process(double delta)
     {
-        if (readyToBuild && !IsBuilding)
-        {
-            IsBuilding = true;
-            readyToBuild = false;
-            VoxelChunkBuilder.Instance.QueueJob(new VoxelChunkBuilderJob(this));
-            
-        }
     }
 
 

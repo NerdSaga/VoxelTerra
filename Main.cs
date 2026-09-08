@@ -35,6 +35,6 @@ public partial class Main : Node3D
     {
         chunkBlockIndex++;
         chunk.SetBlock(chunkBlockIndex, 1);
-        cb.QueueJob(new VoxelChunkBuilderJob(chunk));
+        VoxelChunkBuilder.Instance.SetBlockLocal(chunk, new Vector3I(chunkBlockIndex, 0, 0), 1);
     }
 }

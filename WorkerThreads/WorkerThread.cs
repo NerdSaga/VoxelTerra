@@ -5,6 +5,8 @@ using System.Threading;
 using Godot;
 using VoxelTerra.Debugging;
 
+namespace VoxelTerra.WorkerThreads;
+
 public partial class WorkerThread : Node
 {
 
@@ -12,10 +14,10 @@ public partial class WorkerThread : Node
     private Thread thread;
     public string Name;
 
-    private ConcurrentQueue<WorkerThreadJob> preJobQueue = new();
-    private ConcurrentQueue<WorkerThreadJob> mainJobQueue = new();
-    private ConcurrentQueue<WorkerThreadJob> postJobQueue = new();
-    private AutoResetEvent jobAvailable = new(false);
+    protected ConcurrentQueue<WorkerThreadJob> preJobQueue = new();
+    protected ConcurrentQueue<WorkerThreadJob> mainJobQueue = new();
+    protected ConcurrentQueue<WorkerThreadJob> postJobQueue = new();
+    protected AutoResetEvent jobAvailable = new(false);
 
     public void QueueJob(WorkerThreadJob job)
     {

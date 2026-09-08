@@ -2,6 +2,9 @@ using System;
 using Godot;
 using VoxelTerra.Common;
 using VoxelTerra.TerrainGeneration;
+using VoxelTerra.WorkerThreads;
+
+namespace VoxelTerra.TerrainGeneration;
 
 public class VoxelChunkBuilderJob : WorkerThreadJob
 {
@@ -45,13 +48,14 @@ public class VoxelChunkBuilderJob : WorkerThreadJob
                 }
             }
         }
+
+        chunk.OnFinishBuild.Set();
     }
 
     public override void PostJob()
     {
         chunk.VMesh.Commit();
         chunk.VCollision.Commit();
-        chunk.IsBuilding = false;
     }
 
     public VoxelChunkBuilderJob(VoxelChunk chunk)
