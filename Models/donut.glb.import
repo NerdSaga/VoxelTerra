@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dqmy5v531s0qq"
-path="res://.godot/imported/monkey.glb-01a135e142f38d4ada29732b327a84b5.scn"
+uid="uid://d3ck6v1jbki33"
+path="res://.godot/imported/donut.glb-7e8dc73d452229b59ba8b920c4034ab9.scn"
 
 [deps]
 
-source_file="res://Models/monkey.glb"
-dest_files=["res://.godot/imported/monkey.glb-01a135e142f38d4ada29732b327a84b5.scn"]
+source_file="res://Models/donut.glb"
+dest_files=["res://.godot/imported/donut.glb-7e8dc73d452229b59ba8b920c4034ab9.scn"]
 
 [params]
 
@@ -41,14 +41,14 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "meshes": {
-"Collection_Suzanne": {
+"Collection_Torus": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://Models/monkey.res",
-"save_to_file/path": "uid://3vjdu20ibsyx"
+"save_to_file/fallback_path": "res://Models/donut.res",
+"save_to_file/path": "uid://btiveuky45x6w"
 }
 }
 }

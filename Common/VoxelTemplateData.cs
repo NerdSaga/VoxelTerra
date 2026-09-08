@@ -1,5 +1,7 @@
 using Godot;
 
+namespace VoxelTerra.Common;
+
 public static class VoxelTemplateData {
     
     public static readonly Vector3[] VERTEX =
@@ -111,6 +113,40 @@ public static class VoxelTemplateData {
         new Vector2(0, 1),
     };
 
-    public static readonly Color[] COLOR = {};
+    public static readonly Color[] COLOR =
+    {
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+        new Color(0xffffffff),
 
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+        new Color(0xffffffff),
+    };
+
+    public static readonly bool[] FACES_ALL = {true, true, true, true, true, true};
+
+    public static readonly bool[] FACES_NONE = {false, false, false, false, false, false};
 }

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dsl2m6od34f7c"]
 
-[ext_resource type="Script" uid="uid://ccvx086uirgbr" path="res://Scenes/PlayerControlers/FreecamControler.cs" id="1_lixr3"]
+[ext_resource type="Script" uid="uid://ccvx086uirgbr" path="res://PlayerControlers/FreecamControler.cs" id="1_lixr3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0t2qn"]
 height = 1.3945313

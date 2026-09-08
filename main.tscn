@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://b2pe4ckn0pcay"]
 
 [ext_resource type="Script" uid="uid://briwta3nb7kst" path="res://Main.cs" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://dsl2m6od34f7c" path="res://Scenes/PlayerControlers/freecam_controler.tscn" id="2_0xm2m"]
-[ext_resource type="Material" uid="uid://nqds2ya7i04c" path="res://Scenes/TerrainGeneration/ChunkMaterials/uv_preview.material" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://dsl2m6od34f7c" path="res://PlayerControlers/freecam_controler.tscn" id="2_0xm2m"]
+[ext_resource type="Material" uid="uid://nqds2ya7i04c" path="res://MeshObjects/VoxelMeshMaterials/uv_preview.material" id="3_h2yge"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0t2qn"]
 size = Vector3(0.19335938, 0.20410156, 0.17553711)

@@ -1,8 +1,8 @@
 using Godot;
 using System;
-using VoxelTerra.Scripts.Common;
+using VoxelTerra.Common;
 
-namespace VoxelTerra.Scenes.MeshObjects;
+namespace VoxelTerra.MeshObjects;
 
 public partial class VoxelMesh : MeshInstance3D
 {
@@ -14,7 +14,8 @@ public partial class VoxelMesh : MeshInstance3D
 
     public void Begin()
     {
-        mesh.ClearSurfaces();
+        // mesh.ClearSurfaces();
+        Array.Fill<int>(surfaceVertexCounts, 0);
         for (int i = 0; i < surfaces.Length; i++)
         {
             SurfaceTool surface = surfaces[i];
@@ -26,11 +27,10 @@ public partial class VoxelMesh : MeshInstance3D
 
     public void Commit()
     {
-
+        mesh.ClearSurfaces();
         for (int i = 0; i < surfaces.Length; i++)
         {
             SurfaceTool surface = surfaces[i];
-            // surface.Index();
             surface.Commit(mesh);
         }
     }
@@ -76,7 +76,7 @@ public partial class VoxelMesh : MeshInstance3D
     /// <param name="position"></param>
     /// <param name="uv"></param>
     /// <param name="faces"></param>
-    public void AddVoxel(int surfaceID, Vector3 position, Vector2[] uv, bool[] faces)
+    public void AddVoxel(int surfaceID, Vector3 position, Vector2[] uv, Color[] color, bool[] faces)
     {
         SurfaceTool surface = surfaces[surfaceID];
         int nextIndex = surfaceVertexCounts[surfaceID];
@@ -89,17 +89,23 @@ public partial class VoxelMesh : MeshInstance3D
             }
 
             surface.SetNormal(VoxelTemplateData.NORMAL[0 + i * 4]);
+
             surface.SetUV(VoxelTemplateData.UV[0 + i * 4]);
+            surface.SetColor(VoxelTemplateData.COLOR[0 + i * 4]);
             surface.AddVertex(VoxelTemplateData.VERTEX[0 + i * 4] + position);
 
             surface.SetUV(VoxelTemplateData.UV[1 + i * 4]);
+            surface.SetColor(VoxelTemplateData.COLOR[1 + i * 4]);
             surface.AddVertex(VoxelTemplateData.VERTEX[1 + i * 4] + position);
 
             surface.SetUV(VoxelTemplateData.UV[2 + i * 4]);
+            surface.SetColor(VoxelTemplateData.COLOR[2 + i * 4]);
             surface.AddVertex(VoxelTemplateData.VERTEX[2 + i * 4] + position);
 
             surface.SetUV(VoxelTemplateData.UV[3 + i * 4]);
+            surface.SetColor(VoxelTemplateData.COLOR[3 + i * 4]);
             surface.AddVertex(VoxelTemplateData.VERTEX[3 + i * 4] + position);
+
             surface.AddIndex(nextIndex + 0);
             surface.AddIndex(nextIndex + 1);
             surface.AddIndex(nextIndex + 2);

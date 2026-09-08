@@ -15,6 +15,10 @@ run/main_scene="uid://b2pe4ckn0pcay"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+VTDebug="*uid://b3an23fmkxm5p"
+
 [display]
 
 window/stretch/mode="canvas_items"

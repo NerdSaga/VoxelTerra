@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://druq8cym8v1jq"]
-
-[ext_resource type="Script" uid="uid://b45446o3kdu06" path="res://Scenes/TerrainGeneration/Chunk.cs" id="1_nxxax"]
-
-[node name="Chunk" type="StaticBody3D" unique_id=1700418073]
-script = ExtResource("1_nxxax")
