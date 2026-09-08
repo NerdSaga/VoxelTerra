@@ -2,25 +2,15 @@ using System;
 using Godot;
 using VoxelTerra.Common;
 using VoxelTerra.TerrainGeneration;
-using VoxelTerra.WorkerThreads;
 
-namespace VoxelTerra.TerrainGeneration;
+namespace VoxelTerra.WorkerThreads;
 
-public class VoxelChunkBuilderJob : WorkerThreadJob
+public class BlockPlacerJob : WorkerThreadJob
 {
-
     private VoxelChunk chunk;
 
-    public override void PreJob()
+    public override void JobMain()
     {
-        chunk.VMesh.Begin();
-        chunk.VCollision.Begin();
-    }
-
-    public override void MainJob()
-    {
-        // 
-
         Func<VoxelChunk, int, int, int, int> setBlock = static (VoxelChunk chunk, int x, int y, int z) =>
         {
             int chunkBlockIndex = x;
@@ -52,13 +42,7 @@ public class VoxelChunkBuilderJob : WorkerThreadJob
         chunk.OnFinishBuild.Set();
     }
 
-    public override void PostJob()
-    {
-        chunk.VMesh.Commit();
-        chunk.VCollision.Commit();
-    }
-
-    public VoxelChunkBuilderJob(VoxelChunk chunk)
+    public BlockPlacerJob(VoxelChunk chunk)
     {
         this.chunk = chunk;
     }
