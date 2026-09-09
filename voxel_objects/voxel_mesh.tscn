@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://be3ec2g14fuie"]
+
+[ext_resource type="Script" uid="uid://d3gdtei77r6mk" path="res://voxel_objects/voxel_mesh.gd" id="1_48t2l"]
+[ext_resource type="Material" uid="uid://dsywou2nq18op" path="res://voxel_objects/default_materials/default.material" id="2_d1j6i"]
+[ext_resource type="Material" uid="uid://df84674uwftai" path="res://voxel_objects/default_materials/uv_preview.material" id="3_fdd5o"]
+[ext_resource type="Material" uid="uid://c7jbpr2wwc38y" path="res://voxel_objects/default_materials/normal_preview.material" id="4_nry1t"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qnwo7"]
+
+[node name="VoxelMesh" type="MeshInstance3D" unique_id=804702282]
+mesh = SubResource("BoxMesh_qnwo7")
+script = ExtResource("1_48t2l")
+materials = Array[Material]([ExtResource("2_d1j6i"), ExtResource("3_fdd5o"), ExtResource("4_nry1t")])

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://b176cy6ffh13n"]
+
+[ext_resource type="Script" uid="uid://8pt1vs73sjc5" path="res://voxel_objects/voxel_collision.gd" id="1_em88r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0t2qn"]
+
+[node name="VoxelCollision" type="CollisionShape3D" unique_id=249631068]
+shape = SubResource("BoxShape3D_0t2qn")
+script = ExtResource("1_em88r")

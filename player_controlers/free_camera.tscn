@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://10jvgsupxywo"]
+
+[ext_resource type="Script" uid="uid://dyhx867oghrmo" path="res://player_controlers/free_camera.gd" id="1_8epk6"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0t2qn"]
+radius = 0.39726472
+
+[node name="FreeCamera" type="CharacterBody3D" unique_id=1871991060]
+script = ExtResource("1_8epk6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=724018129]
+shape = SubResource("SphereShape3D_0t2qn")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1114324602]

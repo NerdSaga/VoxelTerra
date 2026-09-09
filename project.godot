@@ -12,12 +12,8 @@ config_version=5
 
 config/name="VoxelTerra"
 run/main_scene="uid://b2pe4ckn0pcay"
-config/features=PackedStringArray("4.7", "C#", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
-
-[autoload]
-
-VTDebug="*uid://b3an23fmkxm5p"
 
 [debug]
 
@@ -27,15 +23,6 @@ settings/stdout/print_fps=true
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-window/vsync/vsync_mode=0
-
-[dotnet]
-
-project/assembly_name="VoxelTerra"
-
-[filesystem]
-
-import/blender/enabled=false
 
 [input]
 
@@ -77,3 +64,4 @@ move_backward={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+renderer/rendering_method="mobile"

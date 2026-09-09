@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c3uwikwg8t615"]
+
+[ext_resource type="PackedScene" uid="uid://be3ec2g14fuie" path="res://voxel_objects/voxel_mesh.tscn" id="1_2pt5y"]
+[ext_resource type="Script" uid="uid://pit7c4jykl6" path="res://voxel_objects/voxel_chunk.gd" id="1_c4nkd"]
+[ext_resource type="PackedScene" uid="uid://b176cy6ffh13n" path="res://voxel_objects/voxel_collision.tscn" id="2_c4nkd"]
+
+[node name="VoxelChunk" type="StaticBody3D" unique_id=312180310]
+script = ExtResource("1_c4nkd")
+
+[node name="VoxelMesh" parent="." unique_id=804702282 instance=ExtResource("1_2pt5y")]
+
+[node name="VoxelCollision" parent="." unique_id=249631068 instance=ExtResource("2_c4nkd")]
