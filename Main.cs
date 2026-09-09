@@ -6,6 +6,7 @@ using VoxelTerra.MeshObjects;
 using VoxelTerra.TerrainGeneration;
 using VoxelTerra.Common;
 using VoxelTerra.WorkerThreads;
+using System.Threading;
 public partial class Main : Node3D
 {
 
@@ -14,17 +15,14 @@ public partial class Main : Node3D
 
     public override void _Ready() {
 
+        GD.Print($"_Ready() {Thread.CurrentThread.ManagedThreadId}");
         chunk = VoxelChunk.Create();
         AddChild(chunk);
 
         bp = new();
         AddChild(bp);
 
-        // cb.QueueJob(new VoxelChunkBuilderJob(chunk));
-        // cb.QueueFree();
-        // cb = null;
-
-        Timer timer = new();
+        Godot.Timer timer = new();
         timer.Timeout += timeout;
         timer.Autostart = true;
         timer.WaitTime = 0.1;
@@ -32,10 +30,11 @@ public partial class Main : Node3D
     }
 
     int chunkBlockIndex = 0;
-    public void timeout()
+    public async void timeout()
     {
         chunkBlockIndex++;
-        // chunk.SetBlock(chunkBlockIndex, 1);
-        BlockPlacer.SetBlockLocal(chunk, new Vector3I(chunkBlockIndex, 0, 0), 1);
+        await BlockPlacer.SetBlockLocal(chunk, new Vector3I(chunkBlockIndex, 0, 0), 1);
+        await BlockPlacer.SetBlockLocal(chunk, new Vector3I(chunkBlockIndex, 1, 0), 1);
+        await BlockPlacer.SetBlockLocal(chunk, new Vector3I(chunkBlockIndex, 2, 0), 1);
     }
 }

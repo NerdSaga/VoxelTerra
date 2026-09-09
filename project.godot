@@ -19,10 +19,15 @@ config/icon="res://icon.svg"
 
 VTDebug="*uid://b3an23fmkxm5p"
 
+[debug]
+
+settings/stdout/print_fps=true
+
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/vsync/vsync_mode=0
 
 [dotnet]
 

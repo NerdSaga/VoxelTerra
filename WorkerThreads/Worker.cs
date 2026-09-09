@@ -3,15 +3,16 @@
 
 using System.Collections.Concurrent;
 using System.Threading;
+using System.Threading.Tasks;
 using Godot;
 
 namespace VoxelTerra.WorkerThreads;
 
-public partial class WorkerThread : Node
+public partial class Worker : Node
 {
     
-    Thread thread;
-    protected ConcurrentQueue<WorkerThreadJob> jobQueue = new();
+    Task task;
+    protected ConcurrentQueue<WorkerJob> jobQueue = new();
     private volatile bool running = false;
     protected AutoResetEvent JobsAvailable = new(false);
 
@@ -24,7 +25,7 @@ public partial class WorkerThread : Node
 
             if (!running) { continue; }
 
-            while (jobQueue.TryDequeue(out WorkerThreadJob job))
+            while (jobQueue.TryDequeue(out WorkerJob job))
             {
                 job.JobMain();
             }
@@ -34,16 +35,15 @@ public partial class WorkerThread : Node
     public override void _EnterTree()
     {
         running = true;
-        thread = new(Work);
-        thread.Start();
+        task = Task.Run(Work);
     }
 
-    public override void _ExitTree()
+    public override async void _ExitTree()
     {
         running = false;
         JobsAvailable.Set();
-        thread.Join();
-        thread = null;
+        await task;
+        task = null;
         JobsAvailable.Dispose();
     }
 

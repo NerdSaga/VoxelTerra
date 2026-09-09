@@ -1,13 +1,18 @@
+
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Godot;
 using VoxelTerra.TerrainGeneration;
 
 namespace VoxelTerra.WorkerThreads;
 
-public partial class BlockPlacer : WorkerThread
+public partial class BlockPlacer : Node
 {
+
     public static BlockPlacer Instance;
 
-    public static void SetBlockLocal(VoxelChunk chunk, Vector3I position, ushort block)
+    public static async Task SetBlockLocal(VoxelChunk chunk, Vector3I position, ushort block)
     {
         int chunkBlockIndex = position.X;
         chunkBlockIndex += position.Y * 256;
@@ -15,35 +20,26 @@ public partial class BlockPlacer : WorkerThread
 
         chunk.Blocks[chunkBlockIndex] = block;
 
-        Instance.regenChunk(chunk);
+        await Instance.regenChunk(chunk);
     }
 
-    private void regenChunk(VoxelChunk chunk)
+    private async Task regenChunk(VoxelChunk chunk)
     {
-        chunk.VMesh.Begin();
-        chunk.VCollision.Begin();
-        jobQueue.Enqueue(new BlockPlacerJob(chunk));
-        JobsAvailable.Set();
-        chunk.OnFinishBuild.WaitOne();
-        chunk.VMesh.Commit();
-        chunk.VCollision.Commit();
+        chunk.BeginBuild();
+        await Task.Run(chunk.Build);
+        chunk.CommitBuild();
     }
-
-    // public BlockPlacer Init()
-    // {
-        
-    // }
 
     public override void _EnterTree()
     {
-        base._EnterTree();
+        Name = "BlockPlacer";
         Instance = this;
-        Name = "WorkerThread-BlockPlacer";
     }
 
     public override void _ExitTree()
     {
-        base._ExitTree();
         Instance = null;
     }
+
+
 }
