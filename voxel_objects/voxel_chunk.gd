@@ -4,6 +4,7 @@ class_name VoxelChunk
 @onready var v_mesh: VoxelMesh = $VoxelMesh
 @onready var v_collision: VoxelCollision = $VoxelCollision
 var blocks := PackedByteArray()
+var unit_position := Vector2.ZERO
 
 func begin_build() -> void:
 	v_mesh.begin()
@@ -53,6 +54,9 @@ func _ready() -> void:
 	blocks.fill(0)
 
 static var SCENE: PackedScene = load("uid://c3uwikwg8t615")
-static func CREATE() -> VoxelChunk:
-	var voxel_chunk: VoxelChunk = SCENE.instantiate()
-	return voxel_chunk
+static func CREATE(chunk_unit_position: Vector2i) -> VoxelChunk:
+	var chunk: VoxelChunk = SCENE.instantiate()
+	chunk.position = Vector3i(chunk_unit_position.x * 16, 0, chunk_unit_position.y * 16)
+	chunk.unit_position = chunk_unit_position
+	chunk.name = "Chunk_" + str(chunk.unit_position.x) + "_" + str(chunk.unit_position.y)
+	return chunk

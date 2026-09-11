@@ -4,9 +4,15 @@
 [ext_resource type="Script" uid="uid://pit7c4jykl6" path="res://voxel_objects/voxel_chunk.gd" id="1_c4nkd"]
 [ext_resource type="PackedScene" uid="uid://b176cy6ffh13n" path="res://voxel_objects/voxel_collision.tscn" id="2_c4nkd"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_0t2qn"]
+
 [node name="VoxelChunk" type="StaticBody3D" unique_id=312180310]
 script = ExtResource("1_c4nkd")
 
 [node name="VoxelMesh" parent="." unique_id=804702282 instance=ExtResource("1_2pt5y")]
 
 [node name="VoxelCollision" parent="." unique_id=249631068 instance=ExtResource("2_c4nkd")]
+
+[node name="PreviewMesh" type="MeshInstance3D" parent="." unique_id=1811076179]
+transform = Transform3D(15.5, 0, 0, 0, 1, 0, 0, 0, 15.5, 8, -0.7768028, 8)
+mesh = SubResource("BoxMesh_0t2qn")
