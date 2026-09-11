@@ -5,9 +5,6 @@ var chunks: Array[VoxelChunk] = []
 
 func _ready() -> void:
 
-	if OS.is_debug_build():
-		Window.get_focused_window().always_on_top = true
-
 	add_child(terrain)
 	add_child(FreeCamera.CREATE(Vector3(0, 0, 5)))
 

@@ -15,6 +15,10 @@ run/main_scene="uid://b2pe4ckn0pcay"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+VoxelChunkBuilder="*uid://bdodbi5w4jw2h"
+
 [debug]
 
 settings/stdout/print_fps=true

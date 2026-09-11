@@ -26,7 +26,7 @@ static func INIT() -> Terrain:
 
 	var terrain := Terrain.new()
 	_instance = terrain
-	VoxelChunkBuilder.START()
+	# VoxelChunkBuilder.START()
 	return terrain
 
 
@@ -35,7 +35,8 @@ func _enter_tree() -> void:
 	name = "Terrain"
 
 func _exit_tree() -> void:
-	VoxelChunkBuilder.END()
+	pass
+	# VoxelChunkBuilder.END()
 
 
 
