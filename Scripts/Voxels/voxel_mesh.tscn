@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ce22dvs8fbrk8"]
+
+[ext_resource type="Script" uid="uid://c0nc2p5mhrm56" path="res://Scripts/Voxels/VoxelMesh.cs" id="1_l4s36"]
+[ext_resource type="Material" uid="uid://dewxjamoghah" path="res://Scripts/Voxels/ChunkMaterials/color_preview.material" id="2_7wmcu"]
+[ext_resource type="Material" uid="uid://nqds2ya7i04c" path="res://Scripts/Voxels/ChunkMaterials/uv_preview.material" id="2_i55k6"]
+[ext_resource type="Material" uid="uid://dtgtlqnr74g5o" path="res://Scripts/Voxels/ChunkMaterials/normal_preview.material" id="3_pw64v"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0t2qn"]
+
+[node name="VoxelMesh" type="MeshInstance3D" unique_id=251247601]
+mesh = SubResource("BoxMesh_0t2qn")
+script = ExtResource("1_l4s36")
+materials = Array[Material]([ExtResource("2_7wmcu"), ExtResource("3_pw64v"), ExtResource("2_i55k6")])

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bsoj4qckg5igt"]
+
+[node name="VTDebug" type="Control" unique_id=742782100]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="FPS-Label" type="Label" parent="." unique_id=564075134]
+layout_mode = 0
+offset_left = 49.0
+offset_top = 55.0
+offset_right = 89.0
+offset_bottom = 78.0
+text = "FPS: "
