@@ -3,14 +3,23 @@ class_name Terrain
 
 static var _instance: Terrain
 
-static func set_block_local(chunk: VoxelChunk, local_position: Vector3i, block: int) -> void:
+static func set_block_local(chunk: VoxelChunk, local_position: Vector3i, block_id: int, variant: int = 0) -> void:
 	var chunk_block_index := local_position.x
 	chunk_block_index += local_position.y * 256
 	chunk_block_index += local_position.z * 16
 
-	chunk.set_block(chunk_block_index, block)
+	var block = (variant << 4 * 3) & block_id
 
-	VoxelChunkBuilder.build_chunk(chunk)
+	# var v = block >> 4 * 3
+	# var b = block & 0x00ff
+	# print("v = " + str(v) + ", b = " + str(b))
+
+	chunk.set_block(chunk_block_index, block_id)
+
+	chunk.begin_build()
+	chunk.build()
+	chunk.commit_build()
+	# VoxelChunkBuilder.build_chunk(chunk)
 
 
 static func load_chunk(chunk_unit_position: Vector2i) -> VoxelChunk:

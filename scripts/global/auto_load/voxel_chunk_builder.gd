@@ -1,5 +1,9 @@
 extends Node
 
+
+# This class cannot run duplicate builds on chunks.
+
+
 var _running = true
 var _builder_tasks: Dictionary[String, _VoxelChunkBuilderTask] = {}
 var _builder_tasks_mutex := Mutex.new()
@@ -12,6 +16,19 @@ class _VoxelChunkBuilderTask:
 
 
     func _working() -> void:
+
+
+        VoxelChunkBuilder._builder_tasks_mutex.lock()
+        var duplicate: _VoxelChunkBuilderTask = VoxelChunkBuilder._builder_tasks.get(_chunk.name)
+        VoxelChunkBuilder._builder_tasks.set(_chunk.name, self)
+
+        if duplicate != null:
+            WorkerThreadPool.wait_for_task_completion(duplicate._task_id)
+            if !VoxelChunkBuilder._running: return
+
+        
+        VoxelChunkBuilder._builder_tasks_mutex.unlock()
+
         call_deferred("_chunk_begin_build")
         _update.wait()
 
@@ -21,11 +38,13 @@ class _VoxelChunkBuilderTask:
 
         call_deferred("_chunk_commit_build")
         _update.wait()
+
         if !VoxelChunkBuilder._running: return
+
+        VoxelChunkBuilder._builder_tasks_mutex.lock()
         if VoxelChunkBuilder._builder_tasks.get(_chunk.name) != null:
-            VoxelChunkBuilder._builder_tasks_mutex.lock()
             VoxelChunkBuilder._builder_tasks.erase(_chunk.name)
-            VoxelChunkBuilder._builder_tasks_mutex.unlock()
+        VoxelChunkBuilder._builder_tasks_mutex.unlock()
     
 
     func _chunk_begin_build() -> void:
@@ -41,18 +60,21 @@ class _VoxelChunkBuilderTask:
     func queue(chunk: VoxelChunk) -> void:
         _chunk = chunk
 
-        VoxelChunkBuilder._builder_tasks_mutex.lock()
-        var duplicate: _VoxelChunkBuilderTask = VoxelChunkBuilder._builder_tasks.get(chunk.name)
-        VoxelChunkBuilder._builder_tasks_mutex.unlock()
+        # VoxelChunkBuilder._builder_tasks_mutex.lock()
+        # var duplicate: _VoxelChunkBuilderTask = VoxelChunkBuilder._builder_tasks.get(_chunk.name)
+        # VoxelChunkBuilder._builder_tasks_mutex.unlock()
 
-        if duplicate != null:
-            WorkerThreadPool.wait_for_task_completion(duplicate._task_id)
+        # if duplicate != null:
+        #     print("Found dupe")
+        #     WorkerThreadPool.wait_for_task_completion(duplicate._task_id)
         
-        VoxelChunkBuilder._builder_tasks_mutex.lock()
+        # VoxelChunkBuilder._builder_tasks_mutex.lock()
+        # VoxelChunkBuilder._builder_tasks.set(_chunk.name, self)
+        # VoxelChunkBuilder._builder_tasks_mutex.unlock()
+
         _task_id = WorkerThreadPool.add_task(func(): self._working())
-        VoxelChunkBuilder._builder_tasks.set(_chunk.name, self)
-        VoxelChunkBuilder._builder_tasks_mutex.unlock()
-    
+
+
     func end():
         _update.post()
         WorkerThreadPool.wait_for_task_completion(_task_id)
