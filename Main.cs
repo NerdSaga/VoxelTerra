@@ -3,6 +3,7 @@ using System;
 using System.Threading;
 using VoxelTerra.Debugging;
 using VoxelTerra.Voxels;
+using VoxelTerra.Registries;
 
 public partial class Main : Node3D
 {
@@ -20,7 +21,9 @@ public partial class Main : Node3D
         timer.WaitTime = 0.1;
         AddChild(timer);
 
-        VTDebug.ErrorAbort("LOL");
+        // VTDebug.ErrorAbort("LOL");
+
+        BlockRegistry.PrintItems();
     }
 
     int chunkBlockIndex = 0;

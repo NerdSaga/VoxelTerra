@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://bsoj4qckg5igt"]
 
+[ext_resource type="Script" uid="uid://b3an23fmkxm5p" path="res://Scripts/Debugging/VTDebug.cs" id="1_30beh"]
+
 [node name="VTDebug" type="Control" unique_id=742782100]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_30beh")
 
 [node name="FPS-Label" type="Label" parent="." unique_id=564075134]
 layout_mode = 0
