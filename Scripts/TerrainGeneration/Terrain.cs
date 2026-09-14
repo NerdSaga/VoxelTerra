@@ -11,6 +11,7 @@ public partial class Terrain : Node3D
 
     private static Terrain instance;
     private VoxelChunkBuilder chunkBuilder;
+    private Dictionary<string, VoxelChunk> chunks = new();
 
 
     public static void SetBlockLocal(VoxelChunk chunk, Vector3I localPosition, UInt16 block)
@@ -18,16 +19,52 @@ public partial class Terrain : Node3D
         chunk.SetBlock(localPosition, block);
 
         VoxelChunkBuilder.BuildChunk(chunk);
-        // chunk.BeginBuild();
-        // chunk.Build();
-        // chunk.CommitBuild();
     }
 
-    public static VoxelChunk LoadChunk(Vector2I chunkUnitPosition)
+    public static VoxelChunk AquireChunk(Vector2I chunkUnitPosition)
     {
-        VoxelChunk chunk = VoxelChunk.Create(chunkUnitPosition);
-        instance.AddChild(chunk);
-        return chunk;
+        // Return the chunk if it already exists.
+
+        Func<Vector2I, VoxelChunk> getChunk = static(Vector2I chunkUnitPosition) =>
+        {
+            if (instance.chunks.TryGetValue(GetChunkName(chunkUnitPosition), out VoxelChunk chunk))
+            {
+                return chunk;
+            }
+
+            VoxelChunk newChunk = VoxelChunk.Create(chunkUnitPosition);
+            instance.chunks[newChunk.Name] = newChunk;
+            instance.AddChild(newChunk);
+
+            return newChunk;
+        };
+
+        VoxelChunk chunk = getChunk(chunkUnitPosition);
+        VoxelChunk[] neighbors = // Check if neghbors are correct.
+        {
+            getChunk(chunkUnitPosition - new Vector2I(1, -1)),
+            getChunk(chunkUnitPosition - new Vector2I(1, 0)),
+            getChunk(chunkUnitPosition - new Vector2I(1, 1)),
+            getChunk(chunkUnitPosition - new Vector2I(0, -1)),
+            getChunk(chunkUnitPosition - new Vector2I(0, 1)),
+            getChunk(chunkUnitPosition - new Vector2I(-1, -1)),
+            getChunk(chunkUnitPosition - new Vector2I(-1, 0)),
+            getChunk(chunkUnitPosition - new Vector2I(-1, -1)),
+        };
+
+        chunk.Neighbors = neighbors;
+        
+        return getChunk(chunkUnitPosition);
+    }
+
+    public static string GetChunkName(Vector2I chunkUnitPosition)
+    {
+        return $"Chunk_{chunkUnitPosition.X}_{chunkUnitPosition.Y}";
+    }
+
+    public static int GetChunkCount()
+    {
+        return instance.chunks.Count;
     }
 
 

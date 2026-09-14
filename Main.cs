@@ -21,7 +21,7 @@ public partial class Main : Node3D
         {
             for (int x = 0; x < 4; x++)
             {
-                chunks.Add(Terrain.LoadChunk(new Vector2I(x, y)));
+                chunks.Add(Terrain.AquireChunk(new Vector2I(x, y)));
             }
         }
 
@@ -44,7 +44,6 @@ public partial class Main : Node3D
         {
             Terrain.SetBlockLocal(chunk, new Vector3I(chunkBlockIndex, 0, 0), 1);
         }
-        
         chunkBlockIndex++;
     }
 

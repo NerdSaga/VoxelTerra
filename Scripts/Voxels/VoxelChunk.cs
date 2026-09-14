@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using VoxelTerra.TerrainGeneration;
 
 namespace VoxelTerra.Voxels;
 
@@ -10,7 +11,18 @@ public partial class VoxelChunk : StaticBody3D
     public UInt16[] Blocks {get;} = new ushort[16 * 16 * 256];
     public VoxelMesh VMesh;
     public VoxelCollision VCollision;
-    // public AutoResetEvent OnFinishBuild = new(false);
+    public VoxelChunk[] Neighbors;
+    public enum NeighborDirection
+    {
+        NW = 0,
+        N = 1,
+        NE = 2,
+        W = 3,
+        E = 4,
+        SW = 5,
+        S = 6,
+        SE = 7
+    }
 
     public void SetBlock(int chunkBlockIndex, UInt16 block)
     {
@@ -23,6 +35,11 @@ public partial class VoxelChunk : StaticBody3D
         chunkBlockIndex += localPosition.Y * 256;
         chunkBlockIndex += localPosition.Z * 16;
         SetBlock(chunkBlockIndex, block);
+    }
+
+    public VoxelChunk GetNeighbor(NeighborDirection direction)
+    {
+        return Neighbors[(int)direction];
     }
 
     public void BeginBuild()
@@ -89,7 +106,7 @@ public partial class VoxelChunk : StaticBody3D
     {
         VoxelChunk chunk = SCENE.Instantiate<VoxelChunk>();
         chunk.Position = new Vector3(chunkUnitPosition.X * 16, 0, chunkUnitPosition.Y * 16);
-        chunk.Name = $"Chunk_{chunkUnitPosition.X}_{chunkUnitPosition.Y}";
+        chunk.Name = Terrain.GetChunkName(chunkUnitPosition);
         return chunk;
     }
 }
