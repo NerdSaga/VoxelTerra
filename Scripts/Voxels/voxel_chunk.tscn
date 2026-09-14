@@ -2,5 +2,11 @@
 
 [ext_resource type="Script" uid="uid://b45446o3kdu06" path="res://Scripts/Voxels/VoxelChunk.cs" id="1_xr735"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_0t2qn"]
+
 [node name="VoxelChunk" type="StaticBody3D" unique_id=1700418073]
 script = ExtResource("1_xr735")
+
+[node name="ChunkSizePreview" type="MeshInstance3D" parent="." unique_id=1567331743]
+transform = Transform3D(15.5, 0, 0, 0, 1, 0, 0, 0, 15.5, 8, -0.6092184, 8)
+mesh = SubResource("BoxMesh_0t2qn")

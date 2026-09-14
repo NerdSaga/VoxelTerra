@@ -4,16 +4,26 @@ using System.Threading;
 using VoxelTerra.Debugging;
 using VoxelTerra.Voxels;
 using VoxelTerra.Registries;
+using VoxelTerra.TerrainGeneration;
+using System.Collections.Generic;
 
 public partial class Main : Node3D
 {
 
-    VoxelChunk chunk;
+    List<VoxelChunk> chunks = new();
+    Terrain terrain;
 
     public override void _Ready() {
 
-        chunk = VoxelChunk.Create();
-        AddChild(chunk);
+        AddChild(Terrain.Init());
+
+        for (int y = 0; y < 4; y++)
+        {
+            for (int x = 0; x < 4; x++)
+            {
+                chunks.Add(Terrain.LoadChunk(new Vector2I(x, y)));
+            }
+        }
 
         Godot.Timer timer = new();
         timer.Timeout += timeout;
@@ -24,15 +34,23 @@ public partial class Main : Node3D
         // VTDebug.ErrorAbort("LOL");
 
         BlockRegistry.PrintItems();
+
     }
 
     int chunkBlockIndex = 0;
     public async void timeout()
     {
-        chunk.SetBlock(chunkBlockIndex, 1);
-        chunk.BeginBuild();
-        chunk.Build();
-        chunk.CommitBuild();
+        foreach (VoxelChunk chunk in chunks)
+        {
+            Terrain.SetBlockLocal(chunk, new Vector3I(chunkBlockIndex, 0, 0), 1);
+        }
+        
         chunkBlockIndex++;
     }
+
+    public override void _ExitTree()
+    {
+        Terrain.Quit();
+    }
+
 }

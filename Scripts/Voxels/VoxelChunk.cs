@@ -7,21 +7,21 @@ namespace VoxelTerra.Voxels;
 
 public partial class VoxelChunk : StaticBody3D
 {
-    public ushort[] Blocks {get;} = new ushort[16 * 16 * 256];
+    public UInt16[] Blocks {get;} = new ushort[16 * 16 * 256];
     public VoxelMesh VMesh;
     public VoxelCollision VCollision;
     // public AutoResetEvent OnFinishBuild = new(false);
 
-    public void SetBlock(int chunkBlockIndex, ushort block)
+    public void SetBlock(int chunkBlockIndex, UInt16 block)
     {
         Blocks[chunkBlockIndex] = block;
     }
 
-    public void SetBlock(Vector3I position, ushort block)
+    public void SetBlock(Vector3I localPosition, UInt16 block)
     {
-        int chunkBlockIndex = position.X;
-        chunkBlockIndex += position.Y * 256;
-        chunkBlockIndex += position.Z * 16;
+        int chunkBlockIndex = localPosition.X;
+        chunkBlockIndex += localPosition.Y * 256;
+        chunkBlockIndex += localPosition.Z * 16;
         SetBlock(chunkBlockIndex, block);
     }
 
@@ -76,7 +76,7 @@ public partial class VoxelChunk : StaticBody3D
         VCollision = VoxelCollision.Create();
         AddChild(VCollision);
 
-        Array.Fill<ushort>(Blocks, 0);
+        Array.Fill<UInt16>(Blocks, 0);
     }
 
     public override void _Process(double delta)
@@ -85,9 +85,11 @@ public partial class VoxelChunk : StaticBody3D
 
 
     private static PackedScene SCENE = GD.Load<PackedScene>("uid://druq8cym8v1jq");
-    public static VoxelChunk Create()
+    public static VoxelChunk Create(Vector2I chunkUnitPosition)
     {
-        VoxelChunk instance = SCENE.Instantiate<VoxelChunk>();
-        return instance;
+        VoxelChunk chunk = SCENE.Instantiate<VoxelChunk>();
+        chunk.Position = new Vector3(chunkUnitPosition.X * 16, 0, chunkUnitPosition.Y * 16);
+        chunk.Name = $"Chunk_{chunkUnitPosition.X}_{chunkUnitPosition.Y}";
+        return chunk;
     }
 }
