@@ -2,8 +2,5 @@ namespace VoxelTerra.Registries.Blocks;
 
 class DirtBlock : BlockRegistryItem
 {
-    public DirtBlock()
-    {
-        
-    }
+    public DirtBlock(string name) : base(name) {}
 }

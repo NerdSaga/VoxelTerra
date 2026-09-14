@@ -2,13 +2,23 @@ namespace VoxelTerra.Registries;
 
 public partial class BlockRegistry : VTRegistry
 {
+    public static BlockRegistryItem GetItem(string blockName)
+    {
+        return instance.getItem(blockName) as BlockRegistryItem;
+    }
+
+    public static BlockRegistryItem GetItem(int blockID)
+    {
+        return instance.getItem(blockID) as BlockRegistryItem;
+    }
+
     protected override void init()
     {
-        prefix = "block";
+        PREFIX = "block";
         
-        register("stone", new Blocks.Stone());
-        register("grass_block", new Blocks.GrassBlock());
-        register("sand", new Blocks.Sand());
-        register("dirt_block", new Blocks.DirtBlock());
+        register(new Blocks.Stone("stone"));
+        register(new Blocks.GrassBlock("grass_block"));
+        register(new Blocks.Sand("sand_block"));
+        register(new Blocks.DirtBlock("dirt_block"));
     }
 }

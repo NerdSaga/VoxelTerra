@@ -17,11 +17,11 @@ public partial class Main : Node3D
 
         AddChild(Terrain.Init());
 
-        for (int y = 0; y < 4; y++)
+        for (int y = 0; y < 1; y++)
         {
-            for (int x = 0; x < 4; x++)
+            for (int x = 0; x < 2; x++)
             {
-                chunks.Add(Terrain.AquireChunk(new Vector2I(x, y)));
+                chunks.Add(Terrain.LoadChunk(new Vector2I(x, y)));
             }
         }
 
@@ -30,6 +30,9 @@ public partial class Main : Node3D
         timer.Autostart = true;
         timer.WaitTime = 0.1;
         AddChild(timer);
+
+        var block = BlockRegistry.GetItem(0);
+        GD.Print(block.NAME);
 
         // VTDebug.ErrorAbort("LOL");
 

@@ -1,11 +1,19 @@
 [gd_scene format=3 uid="uid://druq8cym8v1jq"]
 
 [ext_resource type="Script" uid="uid://b45446o3kdu06" path="res://Scripts/Voxels/VoxelChunk.cs" id="1_xr735"]
+[ext_resource type="PackedScene" uid="uid://ce22dvs8fbrk8" path="res://Scripts/Voxels/voxel_mesh.tscn" id="2_w50xe"]
+[ext_resource type="PackedScene" uid="uid://cd2tqtv7ku0nh" path="res://Scripts/Voxels/voxel_collision.tscn" id="3_3y0p5"]
+[ext_resource type="Material" uid="uid://b6gfwtmqjm7kp" path="res://Scripts/Voxels/ChunkMaterials/solid_block.material" id="3_hlvmg"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0t2qn"]
 
 [node name="VoxelChunk" type="StaticBody3D" unique_id=1700418073]
 script = ExtResource("1_xr735")
+
+[node name="VoxelMesh" parent="." unique_id=251247601 instance=ExtResource("2_w50xe")]
+materials = Array[Material]([ExtResource("3_hlvmg")])
+
+[node name="VoxelCollision" parent="." unique_id=2009907264 instance=ExtResource("3_3y0p5")]
 
 [node name="ChunkSizePreview" type="MeshInstance3D" parent="." unique_id=1567331743]
 transform = Transform3D(15.5, 0, 0, 0, 1, 0, 0, 0, 15.5, 8, -0.6092184, 8)

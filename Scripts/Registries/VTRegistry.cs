@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -8,39 +9,99 @@ namespace VoxelTerra.Registries;
 public abstract partial class VTRegistry : Node
 {
     protected static VTRegistry instance;
-    protected Dictionary<string, VTRegistryItem> items = new();
-    protected string prefix = "registry_item";
-
-    protected abstract void init();
-
-    void indexItems()
-    {
-        items.Order();
-
-    }
-
-    protected void register(string key, VTRegistryItem item)
-    {
-        if (!items.TryAdd(key, item))
-        {
-            VTDebug.ErrorAbort("Attempted to register a duplicate item: " + key);
-        }
-    }
+    private List<VTRegistryItem> items = new();
+    protected Dictionary<string, VTRegistryItem> itemsDict = new();
+    protected VTRegistryItem[] itemsArray = {};
+    protected string PREFIX = "vt_registry";
 
     public static void PrintItems()
     {
-        foreach (var item in instance.items)
+        foreach (VTRegistryItem item in instance.itemsArray)
         {
-            GD.Print($"{instance.prefix}:{item.Key}");
+            GD.Print($"{item.ID}: {instance.PREFIX}:{item.NAME}");
         }
     }
+
+    protected abstract void init();
+    protected void register(VTRegistryItem item)
+    {
+        items.Add(item);
+        itemsDict[item.NAME] = item;
+    }
+
+
+    class ItemComparer : IComparer<VTRegistryItem>
+    {
+        public int Compare(VTRegistryItem x, VTRegistryItem y)
+        {
+            return x.NAME.CompareTo(y.NAME);
+        }
+    }
+    private ItemComparer itemComparer = new();
+    private void commitItems()
+    {
+        // Sort the items.
+        items.Sort(itemComparer);
+        itemsArray = items.ToArray();
+
+        for (int i = 0; i < itemsArray.Length; i++)
+        {
+            itemsArray[i].ID = i;
+        }
+    }
+
+    public VTRegistryItem getItem(string itemName)
+    {
+        return itemsDict[itemName];
+    }
+
+    public VTRegistryItem getItem(int itemID)
+    {
+        return itemsArray[itemID];
+    }
+    // protected Dictionary<string, VTRegistryItem> itemsDict = new();
+    // protected VTRegistryItem[] itemsArray;
+    // protected string prefix = "registry_item";
+
+    // protected abstract void init();
+
+    // public abstract VTRegistryItem GetItem(string key);
+    // public abstract VTRegistryItem GetItem(int index);
+
+    // protected void commitItems()
+    // {
+    //     int index = 0;
+    //     itemsArray = new VTRegistryItem[itemsDict.Count];
+    //     foreach (var item in itemsDict)
+    //     {
+    //         item.Value.ID = index;
+    //         itemsArray[index] = item.Value;
+    //         index++;
+    //     }
+    // }
+
+    // protected void register(string key, VTRegistryItem item)
+    // {
+    //     if (!itemsDict.TryAdd(key, item))
+    //     {
+    //         VTDebug.ErrorAbort("Attempted to register a duplicate item: " + key);
+    //     }
+    // }
+
+    // public static void PrintItems()
+    // {
+    //     foreach (var item in instance.itemsDict)
+    //     {
+    //         GD.Print($"{item.Value.ID}: {instance.prefix}:{item.Key}");
+    //     }
+    // }
 
 
     public override void _EnterTree()
     {
         instance = this;
         init();
-        items = items.OrderBy(x => x.Key).ToDictionary();
+        commitItems();
     }
 
 

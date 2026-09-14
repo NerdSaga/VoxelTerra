@@ -21,7 +21,7 @@ public partial class Terrain : Node3D
         VoxelChunkBuilder.BuildChunk(chunk);
     }
 
-    public static VoxelChunk AquireChunk(Vector2I chunkUnitPosition)
+    public static VoxelChunk LoadChunk(Vector2I chunkUnitPosition)
     {
         // Return the chunk if it already exists.
 
@@ -42,19 +42,24 @@ public partial class Terrain : Node3D
         VoxelChunk chunk = getChunk(chunkUnitPosition);
         VoxelChunk[] neighbors = // Check if neghbors are correct.
         {
-            getChunk(chunkUnitPosition - new Vector2I(1, -1)),
-            getChunk(chunkUnitPosition - new Vector2I(1, 0)),
-            getChunk(chunkUnitPosition - new Vector2I(1, 1)),
-            getChunk(chunkUnitPosition - new Vector2I(0, -1)),
-            getChunk(chunkUnitPosition - new Vector2I(0, 1)),
-            getChunk(chunkUnitPosition - new Vector2I(-1, -1)),
-            getChunk(chunkUnitPosition - new Vector2I(-1, 0)),
-            getChunk(chunkUnitPosition - new Vector2I(-1, -1)),
+            getChunk(chunkUnitPosition + new Vector2I(1, -1)),
+            getChunk(chunkUnitPosition + new Vector2I(1, 0)),
+            getChunk(chunkUnitPosition + new Vector2I(1, 1)),
+            getChunk(chunkUnitPosition + new Vector2I(0, -1)),
+            getChunk(chunkUnitPosition + new Vector2I(0, 1)),
+            getChunk(chunkUnitPosition + new Vector2I(-1, -1)),
+            getChunk(chunkUnitPosition + new Vector2I(-1, 0)),
+            getChunk(chunkUnitPosition + new Vector2I(-1, 1)),
         };
 
         chunk.Neighbors = neighbors;
         
         return getChunk(chunkUnitPosition);
+    }
+
+    public static VoxelChunk GetChunk(Vector2I chunkUnitPosition)
+    {
+        return instance.chunks[GetChunkName(chunkUnitPosition)];
     }
 
     public static string GetChunkName(Vector2I chunkUnitPosition)

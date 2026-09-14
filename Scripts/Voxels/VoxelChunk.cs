@@ -87,11 +87,9 @@ public partial class VoxelChunk : StaticBody3D
 
     public override void _Ready()
     {
-        VMesh = VoxelMesh.Create();
-        AddChild(VMesh);
+        VMesh = GetNode<VoxelMesh>("VoxelMesh");
 
-        VCollision = VoxelCollision.Create();
-        AddChild(VCollision);
+        VCollision = GetNode<VoxelCollision>("VoxelCollision");
 
         Array.Fill<UInt16>(Blocks, 0);
     }
