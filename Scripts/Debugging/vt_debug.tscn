@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" uid="uid://b3an23fmkxm5p" path="res://Scripts/Debugging/VTDebug.cs" id="1_30beh"]
 
-[node name="VTDebug" type="Control" unique_id=742782100]
+[node name="VTDebug" type="Control" unique_id=742782100 node_paths=PackedStringArray("FPSLabel")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_30beh")
+FPSLabel = NodePath("FPS-Label")
 
 [node name="FPS-Label" type="Label" parent="." unique_id=564075134]
 layout_mode = 0

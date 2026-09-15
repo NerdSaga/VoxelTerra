@@ -14,9 +14,9 @@ public partial class Terrain : Node3D
     private Dictionary<string, VoxelChunk> chunks = new();
 
 
-    public static void SetBlockLocal(VoxelChunk chunk, Vector3I localPosition, UInt16 block)
+    public static void SetBlockLocal(VoxelChunk chunk, Vector3I localPosition, int blockID, int blockVariant)
     {
-        chunk.SetBlock(localPosition, block);
+        chunk.SetBlock(localPosition, blockID, blockVariant);
 
         VoxelChunkBuilder.BuildChunk(chunk);
     }

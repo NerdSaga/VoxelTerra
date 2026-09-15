@@ -1,4 +1,6 @@
 
+using Godot;
+
 namespace VoxelTerra.Registries.Blocks;
 
 public class GrassBlock : BlockRegistryItem, IVTRegistryItem
@@ -7,6 +9,24 @@ public class GrassBlock : BlockRegistryItem, IVTRegistryItem
 
     public GrassBlock() : base(ItemName)
     {
-        
+        SetVariants(
+            new BlockVariant[]
+            {
+                new BlockVariant()
+                {
+                    FaceAtlasTilePositions = new BlockVariant.BlockFaceAtlasTilePositions
+                    {
+                        Top = new Vector2I(3, 0),
+                        Bottom = new Vector2I(1, 0),
+                        North = new Vector2I(2, 0),
+                        South = new Vector2I(2, 0),
+                        East = new Vector2I(2, 0),
+                        West = new Vector2I(2, 0),
+                    },
+                    RenderType = BlockVariant.BlockRenderType.TRANSPARENT,
+                    CollisionType = BlockVariant.BlockCollisionType.VOID
+                },
+            }
+        );
     }
 }

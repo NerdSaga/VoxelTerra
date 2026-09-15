@@ -15,6 +15,11 @@ public abstract class BlockRegistryItem : VTRegistryItem
         variants = blockVariants;
     }
 
+    public BlockVariant GetVariant(int variantIndex)
+    {
+        return variants[variantIndex];
+    }
+
     public BlockRegistryItem(string itemName) : base(itemName)
     {
     }

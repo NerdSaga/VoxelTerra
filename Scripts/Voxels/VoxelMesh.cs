@@ -89,19 +89,19 @@ public partial class VoxelMesh : MeshInstance3D
 
             surface.SetNormal(VoxelTemplateData.NORMAL[0 + i * 4]);
 
-            surface.SetUV(VoxelTemplateData.UV[0 + i * 4]);
+            surface.SetUV(uv[0 + i * 4]);
             surface.SetColor(VoxelTemplateData.COLOR[0 + i * 4]);
             surface.AddVertex(VoxelTemplateData.VERTEX[0 + i * 4] + position);
 
-            surface.SetUV(VoxelTemplateData.UV[1 + i * 4]);
+            surface.SetUV(uv[1 + i * 4]);
             surface.SetColor(VoxelTemplateData.COLOR[1 + i * 4]);
             surface.AddVertex(VoxelTemplateData.VERTEX[1 + i * 4] + position);
 
-            surface.SetUV(VoxelTemplateData.UV[2 + i * 4]);
+            surface.SetUV(uv[2 + i * 4]);
             surface.SetColor(VoxelTemplateData.COLOR[2 + i * 4]);
             surface.AddVertex(VoxelTemplateData.VERTEX[2 + i * 4] + position);
 
-            surface.SetUV(VoxelTemplateData.UV[3 + i * 4]);
+            surface.SetUV(uv[3 + i * 4]);
             surface.SetColor(VoxelTemplateData.COLOR[3 + i * 4]);
             surface.AddVertex(VoxelTemplateData.VERTEX[3 + i * 4] + position);
 

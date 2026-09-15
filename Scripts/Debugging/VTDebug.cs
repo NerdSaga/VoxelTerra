@@ -6,6 +6,8 @@ public partial class VTDebug : Node
 {
     private static VTDebug instance;
 
+    [Export] private Label FPSLabel;
+
     /// <summary>
     /// Pushed an error, and pauses the game.
     /// </summary>
@@ -17,6 +19,12 @@ public partial class VTDebug : Node
         GD.PushError(message);
         instance.GetTree().Paused = true;
     }
+
+    public override void _Process(double delta)
+    {
+        FPSLabel.Text = Engine.GetFramesPerSecond().ToString();
+    }
+
 
     public override void _EnterTree()
     {
