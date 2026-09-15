@@ -4,7 +4,7 @@ A voxel terrain generation system in-progress.
 
 # Project Specifics ⚙️
 
-This project uses the **Dotnet version of Godot 4.7.2** with **C#** as it's primary programming language.
+This project uses the **.NET version of Godot 4.7.2** with **C#** as it's primary programming language.
 
 # What I've Learned ✏️
 
