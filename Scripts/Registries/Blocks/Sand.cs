@@ -1,6 +1,12 @@
+
 namespace VoxelTerra.Registries.Blocks;
 
-public class Sand : BlockRegistryItem
+class Sand : BlockRegistryItem, IVTRegistryItem
 {
-    public Sand(string name) : base(name) {}
+    public static string ItemName => "sand";
+
+    public Sand() : base(ItemName)
+    {
+        
+    }
 }

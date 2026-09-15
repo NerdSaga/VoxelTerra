@@ -1,6 +1,12 @@
+
 namespace VoxelTerra.Registries.Blocks;
 
-public class GrassBlock : BlockRegistryItem
+public class GrassBlock : BlockRegistryItem, IVTRegistryItem
 {
-    public GrassBlock(string name) : base(name) {}
+    public static string ItemName => "grass_block";
+
+    public GrassBlock() : base(ItemName)
+    {
+        
+    }
 }

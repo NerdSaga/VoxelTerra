@@ -1,6 +1,11 @@
 namespace VoxelTerra.Registries.Blocks;
 
-class DirtBlock : BlockRegistryItem
+public class DirtBlock : BlockRegistryItem, IVTRegistryItem
 {
-    public DirtBlock(string name) : base(name) {}
+    public static string ItemName => "dirt_block";
+
+    public DirtBlock() : base(ItemName)
+    {
+        
+    }
 }

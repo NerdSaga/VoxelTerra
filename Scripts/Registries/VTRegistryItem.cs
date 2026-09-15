@@ -2,11 +2,16 @@ namespace VoxelTerra.Registries;
 
 public class VTRegistryItem
 {
-    public int ID = 0;
-    public string NAME = "registry_item";
+    public int ID {get; set;}
+    public string ITEM_NAME = "vt_registry_item";
 
-    public VTRegistryItem(string name)
+    public VTRegistryItem(string itemName)
     {
-        this.NAME = name;
+        ITEM_NAME = itemName;
     }
+}
+
+public interface IVTRegistryItem
+{
+    public abstract static string ItemName {get;}
 }

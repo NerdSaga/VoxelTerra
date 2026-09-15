@@ -18,7 +18,7 @@ public abstract partial class VTRegistry : Node
     {
         foreach (VTRegistryItem item in instance.itemsArray)
         {
-            GD.Print($"{item.ID}: {instance.PREFIX}:{item.NAME}");
+            GD.Print($"{item.ID}: {instance.PREFIX}:{item.ITEM_NAME}");
         }
     }
 
@@ -26,7 +26,7 @@ public abstract partial class VTRegistry : Node
     protected void register(VTRegistryItem item)
     {
         items.Add(item);
-        itemsDict[item.NAME] = item;
+        itemsDict[item.ITEM_NAME] = item;
     }
 
 
@@ -34,7 +34,7 @@ public abstract partial class VTRegistry : Node
     {
         public int Compare(VTRegistryItem x, VTRegistryItem y)
         {
-            return x.NAME.CompareTo(y.NAME);
+            return x.ITEM_NAME.CompareTo(y.ITEM_NAME);
         }
     }
     private ItemComparer itemComparer = new();

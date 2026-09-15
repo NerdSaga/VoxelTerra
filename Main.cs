@@ -32,7 +32,9 @@ public partial class Main : Node3D
         AddChild(timer);
 
         var block = BlockRegistry.GetItem(0);
-        GD.Print(block.NAME);
+        GD.Print(VoxelTerra.Registries.Blocks.GrassBlock.ItemName);
+        GD.Print(VoxelTerra.Registries.Blocks.Sand.ItemName);
+        // GD.Print(VoxelTerra.Registries.Blocks.Sand.ITEM_NAME);
 
         // VTDebug.ErrorAbort("LOL");
 

@@ -4,15 +4,12 @@ using Godot;
 
 namespace VoxelTerra.Registries.Blocks;
 
-public class Stone : BlockRegistryItem
+public class Stone : BlockRegistryItem, IVTRegistryItem
 {
-    
-    public Stone(string name) : base(name)
+
+    public static string ItemName { get => "stone_block"; }
+
+    public Stone() : base(ItemName)
     {
-        // SetVariants(new BlockVariant[]
-        // {
-        //     new BlockVariant()
-        //         .SetFaceAtlasTilePositions(Vector2I.Zero, Vector2I.Zero, Vector2I.Zero, Vector2I.Zero, Vector2I.Zero, Vector2I.Zero)
-        // });
     }
 }
