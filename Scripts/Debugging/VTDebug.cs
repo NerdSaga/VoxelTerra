@@ -22,7 +22,7 @@ public partial class VTDebug : Node
 
     public override void _Process(double delta)
     {
-        FPSLabel.Text = Engine.GetFramesPerSecond().ToString();
+        FPSLabel.Text = $"FPS: {Engine.GetFramesPerSecond().ToString()}";
     }
 
 

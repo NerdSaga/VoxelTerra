@@ -1,4 +1,4 @@
-uniform sampler2D atlasTexture : filter_nearest;
+uniform sampler2D atlasTexture : filter_nearest, source_color;
 uniform vec2 atlasPixelSize = vec2(512, 512);
 uniform vec2 atlasTileSize = vec2(16, 16);
 

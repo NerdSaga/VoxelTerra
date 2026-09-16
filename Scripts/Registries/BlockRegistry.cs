@@ -11,6 +11,7 @@ public partial class BlockRegistry : VTRegistry
         register(new Blocks.GrassBlock());
         register(new Blocks.Sand());
         register(new Blocks.DirtBlock());
+        register(new Blocks.MapleLog());
     }
 
     public static BlockRegistryItem GetItem(string blockName)

@@ -56,7 +56,7 @@ public partial class Main : Node3D
         Godot.Timer timer = new();
         timer.Timeout += timeout;
         timer.Autostart = true;
-        timer.WaitTime = 3;
+        timer.WaitTime = 0.5;
         AddChild(timer);
 
         BlockRegistry.PrintItems();
@@ -70,25 +70,14 @@ public partial class Main : Node3D
     
     public async void timeout()
     {
-        current = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.GrassBlock.ItemName).ID;
-        // int stoneBlockID = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.Stone.ItemName).ID;
-        // int grassBlockID = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.GrassBlock.ItemName).ID;
-
-        // if (current == stoneBlockID)
-        // {
-        //     current = grassBlockID;
-        // }
-        // else
-        // {
-        //     current = stoneBlockID;
-        // }
+        current = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.MapleLog.ItemName).ID;
         
         foreach (VoxelChunk chunk in chunks)
         {
-            Terrain.SetBlockLocal(chunk, pos, current, 0);
+            Terrain.SetBlockLocal(chunk, pos, current, 2);
         }
 
-        pos.X++;
+        pos.X += 2;
         if (pos.X >= 16)
         {
             pos.X = 0;

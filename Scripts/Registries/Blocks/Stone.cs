@@ -11,8 +11,9 @@ public class Stone : BlockRegistryItem, IVTRegistryItem
 
     public Stone() : base(ItemName)
     {
-        var a = new BlockVariant();
-        
+        RenderType = BlockRenderType.SOLID;
+        CollisionType = BlockCollisionType.VOID;
+
         SetVariants(new BlockVariant[]
         {
             new BlockVariant()
@@ -25,9 +26,7 @@ public class Stone : BlockRegistryItem, IVTRegistryItem
                     South = new Vector2I(0, 0),
                     East = new Vector2I(0, 0),
                     West = new Vector2I(0, 0),
-                },
-                RenderType = BlockVariant.BlockRenderType.SOLID,
-                CollisionType = BlockVariant.BlockCollisionType.SOLID
+                }
             }
         });
     }

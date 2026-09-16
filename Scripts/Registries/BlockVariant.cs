@@ -9,23 +9,6 @@ public class BlockVariant
     /// Used by block faces to map textures to block atlas texture tiles. This should remain as six elements.
     /// </summary>
     
-    public enum BlockRenderType
-    {
-        VOID,
-        SOLID,
-        TRANSPARENT,
-        ALL_FACES,
-    }
-    public BlockRenderType RenderType = BlockRenderType.VOID;
-
-    public enum BlockCollisionType
-    {
-        VOID,
-        SOLID,
-        TRANSPARENT,
-        ALL_FACES,
-    }
-    public BlockCollisionType CollisionType = BlockCollisionType.VOID;
 
     public class BlockFaceAtlasTilePositions
     {

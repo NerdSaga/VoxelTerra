@@ -12,31 +12,49 @@ public partial class VoxelChunk : StaticBody3D
     public VoxelCollision VCollision;
     public VoxelChunk[] Neighbors;
 
-    private static class BlockInfo
+    private static class ChunkUtils
     {
-        public static bool[] GetMeshFaces(VoxelChunk chunk, BlockRegistryItem block, int chunkBlockIndex, BlockVariant blockVariant)
+        public static bool[] GetMeshFaces(VoxelChunk chunk, BlockRegistryItem block, Vector3I localPosition, BlockVariant blockVariant)
         {
-            switch (blockVariant.RenderType)
+            switch (block.RenderType)
             {
-                case BlockVariant.BlockRenderType.VOID:
+                case BlockRegistryItem.BlockRenderType.VOID:
                     return new bool[] {false, false, false, false, false, false};
                 
-                case BlockVariant.BlockRenderType.ALL_FACES:
+                case BlockRegistryItem.BlockRenderType.ALL_FACES:
                     return new bool[] {true, true, true, true, true, true};
 
-                case BlockVariant.BlockRenderType.SOLID:
-                    // Only false next to solid block.
-                break;
+                case BlockRegistryItem.BlockRenderType.SOLID:
+                {
+                    // Only false if next to solid.
+                    BlockRegistryItem blockT = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 1, 0)));
+                    BlockRegistryItem blockB = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, -1, 0)));
+                    BlockRegistryItem blockN = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(1, 0, 0)));
+                    BlockRegistryItem blockS = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(-1, 0, 0)));
+                    BlockRegistryItem blockE = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 0, 1)));
+                    BlockRegistryItem blockW = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 0, -1)));
 
-                case BlockVariant.BlockRenderType.TRANSPARENT:
+                    return new bool[]
+                    {
+                        blockT.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                        blockB.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                        blockN.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                        blockS.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                        blockE.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                        blockW.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                    };
+                }
+
+
+                case BlockRegistryItem.BlockRenderType.TRANSPARENT:
+                {
                     // Only false if next to same block.
-
-                    int blockidT = GetBlockID(chunk, chunkBlockIndex + 256);
-                    int blockidB = GetBlockID(chunk, chunkBlockIndex - 256);
-                    int blockidN = GetBlockID(chunk, chunkBlockIndex + 1);
-                    int blockidS = GetBlockID(chunk, chunkBlockIndex - 1);
-                    int blockidE = GetBlockID(chunk, chunkBlockIndex + 16);
-                    int blockidW = GetBlockID(chunk, chunkBlockIndex - 16);
+                    int blockidT = GetBlockID(chunk, localPosition + new Vector3I(0, 1, 0));
+                    int blockidB = GetBlockID(chunk, localPosition + new Vector3I(0, -1, 0));
+                    int blockidN = GetBlockID(chunk, localPosition + new Vector3I(1, 0, 0));
+                    int blockidS = GetBlockID(chunk, localPosition + new Vector3I(-1, 0, 0));
+                    int blockidE = GetBlockID(chunk, localPosition + new Vector3I(0, 0, 1));
+                    int blockidW = GetBlockID(chunk, localPosition + new Vector3I(0, 0, -1));
 
                     return new bool[]
                     {
@@ -47,13 +65,33 @@ public partial class VoxelChunk : StaticBody3D
                         block.ID != blockidE,
                         block.ID != blockidW,
                     };
+                }
 
             }
             return new bool[] {false, false, false, false, false, false};
         }
 
-        public static int GetBlockID(VoxelChunk chunk, int chunkBlockIndex)
+        public static int GetBlockID(VoxelChunk chunk, Vector3I localPosition)
         {
+            if (localPosition.Y < 0 || localPosition.Y >= 256)
+            {
+                return 0;
+            }
+
+            if (localPosition.X < 0 || localPosition.X >= 16)
+            {
+                return 0;
+            }
+
+            if (localPosition.Z < 0 || localPosition.Z >= 16)
+            {
+                return 0;
+            }
+
+            int chunkBlockIndex = localPosition.X;
+            chunkBlockIndex += localPosition.Y * 256;
+            chunkBlockIndex += localPosition.Z * 16;
+
             if (chunkBlockIndex < 0 || chunkBlockIndex > 16 * 16 * 256)
             {
                 return 0;
@@ -64,9 +102,9 @@ public partial class VoxelChunk : StaticBody3D
             return blockID;
         }
 
-        public static BlockRegistryItem GetBlock(VoxelChunk chunk, int chunkBlockIndex)
+        public static BlockRegistryItem GetBlock(VoxelChunk chunk, Vector3I localPosition)
         {
-            int blockID = GetBlockID(chunk, chunkBlockIndex);
+            int blockID = GetBlockID(chunk, localPosition);
             return BlockRegistry.GetItem(blockID);
         }
     }
@@ -113,10 +151,6 @@ public partial class VoxelChunk : StaticBody3D
     {
         Func<VoxelChunk, int, int, int, int> setBlock = static (VoxelChunk chunk, int x, int y, int z) =>
         {
-
-
-
-
             int chunkBlockIndex = x;
             chunkBlockIndex += y * 256;
             chunkBlockIndex += z * 16;
@@ -127,16 +161,16 @@ public partial class VoxelChunk : StaticBody3D
             BlockRegistryItem block = BlockRegistry.GetItem(blockID);
             BlockVariant blockVariant = block.GetVariant(blockVariantID);
 
-            bool[] meshFaces = BlockInfo.GetMeshFaces(chunk, block, chunkBlockIndex, blockVariant);
+            bool[] meshFaces = ChunkUtils.GetMeshFaces(chunk, block, new Vector3I(x, y, z), blockVariant);
 
             if (blockID != 0)
             {
-                if (blockVariant.RenderType != BlockVariant.BlockRenderType.VOID)
+                if (block.RenderType != BlockRegistryItem.BlockRenderType.VOID)
                 {
                     chunk.VMesh.AddVoxel(0, new Vector3(x, y, z), blockVariant.GenerateBlockUV(), VoxelTemplateData.COLOR, meshFaces);
                 }
 
-                if (blockVariant.CollisionType != BlockVariant.BlockCollisionType.VOID)
+                if (block.CollisionType != BlockRegistryItem.BlockCollisionType.VOID)
                 {
                     chunk.VCollision.AddVoxel(new Vector3(x, y, z), VoxelTemplateData.FACES_ALL);
                 }

@@ -2,6 +2,11 @@
 
 [ext_resource type="Script" uid="uid://briwta3nb7kst" path="res://Main.cs" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dsl2m6od34f7c" path="res://Scripts/PlayerControlers/freecam_controler.tscn" id="2_0xm2m"]
+[ext_resource type="Material" uid="uid://b6gfwtmqjm7kp" path="res://Scripts/Voxels/ChunkMaterials/solid_block.material" id="3_h2yge"]
+
+[sub_resource type="Environment" id="Environment_r0li4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0t2qn"]
 
 [node name="Main" type="Node3D" unique_id=1386321590]
 script = ExtResource("1_ig7tw")
@@ -13,3 +18,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.70172)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1369746597]
 transform = Transform3D(0.96822757, 0.21576433, -0.12641655, 0, 0.5055231, 0.86281306, 0.25007078, -0.8353994, 0.4894614, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=877239316]
+environment = SubResource("Environment_r0li4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=991031423]
+mesh = SubResource("BoxMesh_0t2qn")
+surface_material_override/0 = ExtResource("3_h2yge")

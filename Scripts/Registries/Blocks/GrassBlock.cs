@@ -9,6 +9,9 @@ public class GrassBlock : BlockRegistryItem, IVTRegistryItem
 
     public GrassBlock() : base(ItemName)
     {
+
+        RenderType = BlockRenderType.TRANSPARENT;
+        CollisionType = BlockCollisionType.VOID;
         SetVariants(
             new BlockVariant[]
             {
@@ -23,8 +26,6 @@ public class GrassBlock : BlockRegistryItem, IVTRegistryItem
                         East = new Vector2I(2, 0),
                         West = new Vector2I(2, 0),
                     },
-                    RenderType = BlockVariant.BlockRenderType.TRANSPARENT,
-                    CollisionType = BlockVariant.BlockCollisionType.VOID
                 },
             }
         );
