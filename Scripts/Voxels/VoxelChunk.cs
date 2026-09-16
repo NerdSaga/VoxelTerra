@@ -161,18 +161,18 @@ public partial class VoxelChunk : StaticBody3D
             BlockRegistryItem block = BlockRegistry.GetItem(blockID);
             BlockVariant blockVariant = block.GetVariant(blockVariantID);
 
-            bool[] meshFaces = ChunkUtils.GetMeshFaces(chunk, block, new Vector3I(x, y, z), blockVariant);
+            bool[] faces = ChunkUtils.GetMeshFaces(chunk, block, new Vector3I(x, y, z), blockVariant);
 
             if (blockID != 0)
             {
                 if (block.RenderType != BlockRegistryItem.BlockRenderType.VOID)
                 {
-                    chunk.VMesh.AddVoxel(0, new Vector3(x, y, z), blockVariant.GenerateBlockUV(), VoxelTemplateData.COLOR, meshFaces);
+                    chunk.VMesh.AddVoxel(0, new Vector3(x, y, z), blockVariant.GenerateBlockUV(), VoxelTemplateData.COLOR, faces);
                 }
 
                 if (block.CollisionType != BlockRegistryItem.BlockCollisionType.VOID)
                 {
-                    chunk.VCollision.AddVoxel(new Vector3(x, y, z), VoxelTemplateData.FACES_ALL);
+                    chunk.VCollision.AddVoxel(new Vector3(x, y, z), faces);
                 }
             }
 

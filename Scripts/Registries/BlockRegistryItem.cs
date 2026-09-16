@@ -27,7 +27,6 @@ public abstract class BlockRegistryItem : VTRegistryItem
     }
     public BlockCollisionType CollisionType = BlockCollisionType.VOID;
 
-
     public void SetVariants(BlockVariant[] blockVariants)
     {
         variants = blockVariants;

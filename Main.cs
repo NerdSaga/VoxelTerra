@@ -15,20 +15,6 @@ public partial class Main : Node3D
 
     public override void _Ready() {
 
-
-        int block = 3501;
-        int variant = 6;
-
-        variant = variant << 4 * 3;
-        UInt16 blockBytes = (UInt16)(variant | block);
-
-        block = blockBytes & 0x0fff;
-        variant = (variant & 0xf000) >> 4 * 3;
-        GD.Print(block);
-        GD.Print(variant);
-
-        // blockBytes = 0b0000-0000-0001-1111;
-
         AddChild(Terrain.Init());
 
         for (int y = 0; y < 3; y++)
@@ -39,20 +25,6 @@ public partial class Main : Node3D
             }
         }
 
-
-        // foreach (VoxelChunk chunk in chunks)
-        // {
-        //     int blockID = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.GrassBlock.ItemName).ID;
-        //     Terrain.SetBlockLocal(chunk, new Vector3I(1, 0, 1), blockID, 0);
-        //     Terrain.SetBlockLocal(chunk, new Vector3I(1, 1, 1), blockID, 0);
-        //     Terrain.SetBlockLocal(chunk, new Vector3I(1, 2, 1), blockID, 0);
-        //     Terrain.SetBlockLocal(chunk, new Vector3I(0, 1, 1), blockID, 0);
-        //     Terrain.SetBlockLocal(chunk, new Vector3I(2, 1, 1), blockID, 0);
-        //     Terrain.SetBlockLocal(chunk, new Vector3I(1, 1, 0), blockID, 0);
-        //     Terrain.SetBlockLocal(chunk, new Vector3I(1, 1, 2), blockID, 0);
-        // }
-
-
         Godot.Timer timer = new();
         timer.Timeout += timeout;
         timer.Autostart = true;
@@ -60,9 +32,6 @@ public partial class Main : Node3D
         AddChild(timer);
 
         BlockRegistry.PrintItems();
-
-        // var block = BlockRegistry.GetItem(0);
-
     }
 
     Vector3I pos = Vector3I.Zero;
@@ -74,10 +43,10 @@ public partial class Main : Node3D
         
         foreach (VoxelChunk chunk in chunks)
         {
-            Terrain.SetBlockLocal(chunk, pos, current, 2);
+            Terrain.SetBlockLocal(chunk, pos, current, 1);
         }
 
-        pos.X += 2;
+        pos.X += 1;
         if (pos.X >= 16)
         {
             pos.X = 0;
@@ -89,7 +58,6 @@ public partial class Main : Node3D
             pos.Z = 0;
             pos.Y++;
         }
-
     }
 
     public override void _ExitTree()

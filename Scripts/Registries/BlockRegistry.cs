@@ -7,6 +7,7 @@ public partial class BlockRegistry : VTRegistry
         PREFIX = "block";
         
         register(new Blocks.Empty());
+        register(new Blocks.DefaultBlock());
         register(new Blocks.Stone());
         register(new Blocks.GrassBlock());
         register(new Blocks.Sand());

@@ -35,6 +35,11 @@ public class MapleLog : BlockRegistryItem, IVTRegistryItem
                     South = new Vector2I(4, 0),
                     East = new Vector2I(5, 0),
                     West = new Vector2I(5, 0),
+                },
+                FaceAtlasTileRotations = new BlockVariant.BlockFaceAtlasTileRotations
+                {
+                    East = Common.Rotations.R270,
+                    West = Common.Rotations.R90,
                 }
             },
 
@@ -48,6 +53,14 @@ public class MapleLog : BlockRegistryItem, IVTRegistryItem
                     South = new Vector2I(5, 0),
                     East = new Vector2I(4, 0),
                     West = new Vector2I(4, 0),
+                },
+
+                FaceAtlasTileRotations = new BlockVariant.BlockFaceAtlasTileRotations
+                {
+                    Top = Common.Rotations.R270,
+                    Bottom = Common.Rotations.R90,
+                    North = Common.Rotations.R90,
+                    South = Common.Rotations.R270,
                 }
             }
         });

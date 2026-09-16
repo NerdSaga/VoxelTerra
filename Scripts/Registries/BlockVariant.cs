@@ -34,19 +34,56 @@ public class BlockVariant
     }
     public BlockFaceAtlasTilePositions FaceAtlasTilePositions = new BlockFaceAtlasTilePositions();
 
+    public class BlockFaceAtlasTileRotations
+    {
+        public float Top = 0;
+        public float Bottom = 0;
+        public float North = 0;
+        public float South = 0;
+        public float East = 0;
+        public float West = 0;
+
+        public float[] ToArray()
+        {
+            return new float[]
+            {
+                Top,
+                Bottom,
+                North,
+                South,
+                East,
+                West,
+            };
+        }
+    }
+
+    public BlockFaceAtlasTileRotations FaceAtlasTileRotations = new();
+
     public virtual Vector2[] GenerateBlockUV()
     {
         Vector2[] uv = new Vector2[24];
         Vector2[] atlasTilePositions = FaceAtlasTilePositions.ToArray();
+        float[] atlasTileRotations = FaceAtlasTileRotations.ToArray();
 
         for (int i = 0; i < 6; i++)
         {
             int index = i * 4;
             Vector2 offset = atlasTilePositions[i];
-            uv[index + 0] = VoxelTemplateData.UV[index + 0] + offset;
-            uv[index + 1] = VoxelTemplateData.UV[index + 1] + offset;
-            uv[index + 2] = VoxelTemplateData.UV[index + 2] + offset;
-            uv[index + 3] = VoxelTemplateData.UV[index + 3] + offset;
+
+            uv[index + 0] = VoxelTemplateData.UV[index + 0] - new Vector2(0.5f, 0.5f);
+            uv[index + 1] = VoxelTemplateData.UV[index + 1] - new Vector2(0.5f, 0.5f);
+            uv[index + 2] = VoxelTemplateData.UV[index + 2] - new Vector2(0.5f, 0.5f);
+            uv[index + 3] = VoxelTemplateData.UV[index + 3] - new Vector2(0.5f, 0.5f);
+
+            uv[index + 0] = uv[index + 0].Rotated(atlasTileRotations[i]) + new Vector2(0.5f, 0.5f);
+            uv[index + 1] = uv[index + 1].Rotated(atlasTileRotations[i]) + new Vector2(0.5f, 0.5f);
+            uv[index + 2] = uv[index + 2].Rotated(atlasTileRotations[i]) + new Vector2(0.5f, 0.5f);
+            uv[index + 3] = uv[index + 3].Rotated(atlasTileRotations[i]) + new Vector2(0.5f, 0.5f);
+
+            uv[index + 0] += offset;
+            uv[index + 1] += offset;
+            uv[index + 2] += offset;
+            uv[index + 3] += offset;
         }
 
         return uv;
