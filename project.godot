@@ -13,7 +13,8 @@ config_version=5
 config/name="VoxelTerra"
 run/main_scene="uid://b2pe4ckn0pcay"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/image="uid://c7ymiu8i32gcp"
+config/icon="uid://c7ymiu8i32gcp"
 
 [autoload]
 
@@ -26,7 +27,6 @@ window/size/viewport_width=1366
 window/size/viewport_height=768
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-window/vsync/vsync_mode=0
 
 [dotnet]
 

@@ -7,6 +7,8 @@ public partial class VTDebug : Node
     private static VTDebug instance;
 
     [Export] private Label FPSLabel;
+    [Export] private Label GPULabel;
+    [Export] private Label VSyncLabel;
 
     /// <summary>
     /// Pushed an error, and pauses the game.
@@ -23,6 +25,8 @@ public partial class VTDebug : Node
     public override void _Process(double delta)
     {
         FPSLabel.Text = $"FPS: {Engine.GetFramesPerSecond().ToString()}";
+        VSyncLabel.Text = $"V-Sync: {DisplayServer.WindowGetVsyncMode(0).ToString()}";
+        GPULabel.Text = $"Graphics: {RenderingServer.GetVideoAdapterName()} | {RenderingServer.GetCurrentRenderingDriverName()}";
     }
 
 
