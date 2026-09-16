@@ -2,6 +2,8 @@
 
 A voxel terrain generation system in-progress.
 
+<img src=".misc/images/readme_head.png" alt="Game Screenshot" width="600">
+
 # Project Specifics ⚙️
 
 This project uses the **.NET version of Godot 4.7.2** with **C#** as it's primary programming language.
