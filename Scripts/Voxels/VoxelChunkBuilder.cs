@@ -81,6 +81,7 @@ public partial class VoxelChunkBuilder : Node
         instance = this;
         running = true;
         thread = new(ThreadMain);
+        thread.Name = "VoxelChunkBuilder";
         thread.Start();
     }
 

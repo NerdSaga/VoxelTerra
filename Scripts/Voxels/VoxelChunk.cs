@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading;
 using VoxelTerra.Registries;
 using VoxelTerra.TerrainGeneration;
 
@@ -11,6 +12,14 @@ public partial class VoxelChunk : StaticBody3D
     public VoxelMesh VMesh;
     public VoxelCollision VCollision;
     public VoxelChunk[] Neighbors;
+    public Vector2I ChunkUnitPosition = Vector2I.Zero;
+    public Vector3I GlobalPosition
+    {
+        get
+        {
+            return new Vector3I(ChunkUnitPosition.X * 16, 0, ChunkUnitPosition.Y * 16);
+        }
+    }
 
     private static class ChunkUtils
     {
@@ -78,15 +87,34 @@ public partial class VoxelChunk : StaticBody3D
                 return 0;
             }
 
-            if (localPosition.X < 0 || localPosition.X >= 16)
-            {
-                return 0;
-            }
+            VoxelChunk workingChunk = chunk;
 
-            if (localPosition.Z < 0 || localPosition.Z >= 16)
+            if (GetNeighborFromLocalPosition(localPosition, chunk, out VoxelChunk neighbor))
             {
-                return 0;
+                if (localPosition.X < 0)
+                {
+                    localPosition.X += 16;
+                }
+                else if (localPosition.X >= 16)
+                {
+                    localPosition.X -= 16;
+                }
+
+                if (localPosition.Z < 0)
+                {
+                    localPosition.Z += 16;
+                }
+                else if (localPosition.Z >= 16)
+                {
+                    localPosition.Z -= 16;
+                }
+
+                workingChunk = neighbor;
             }
+            // if (localPosition.Z < 0 || localPosition.Z >= 16)
+            // {
+            //     return 0;
+            // }
 
             int chunkBlockIndex = localPosition.X;
             chunkBlockIndex += localPosition.Y * 256;
@@ -97,11 +125,76 @@ public partial class VoxelChunk : StaticBody3D
                 return 0;
             }
 
-            UInt16 blockBytes = chunk.Blocks[chunkBlockIndex];
+            UInt16 blockBytes = workingChunk.Blocks[chunkBlockIndex];
             int blockID = blockBytes & 0x0fff;
             return blockID;
         }
 
+        public static bool GetNeighborFromLocalPosition(Vector3I localPosition, VoxelChunk chunk, out VoxelChunk neighbor)
+        {
+
+            if (localPosition.X < 0)
+            {
+                if (localPosition.Z < 0)
+                {
+                    // Sw
+                    neighbor = chunk.Neighbors[(int)NeighborDirection.SW];
+                }
+
+                else if (localPosition.Z >= 16)
+                {
+                    // Se
+                    neighbor = chunk.Neighbors[(int)NeighborDirection.SE];
+                }
+
+                // S
+                neighbor = chunk.Neighbors[(int)NeighborDirection.S];
+
+                return true;
+            }
+
+            if (localPosition.X >= 16)
+            {
+                if (localPosition.Z < 0)
+                {
+                    // NW
+                    neighbor = chunk.Neighbors[(int)NeighborDirection.NW];
+                }
+
+                if (localPosition.Z >= 16)
+                {
+                    // NE
+                    neighbor = chunk.Neighbors[(int)NeighborDirection.NE];
+                }
+
+                // N
+                neighbor = chunk.Neighbors[(int)NeighborDirection.N];
+
+                return true;
+            }
+
+            if (localPosition.Z < 0)
+            {
+                // W
+                neighbor = chunk.Neighbors[(int)NeighborDirection.W];
+                return true;
+            }
+            else if (localPosition.Z >= 16)
+            {
+                // E
+                neighbor = chunk.Neighbors[(int)NeighborDirection.E];
+                return true;
+            }
+
+            neighbor = null;
+
+            return false;
+        }
+
+        // public static Vector3I GlobalizeLocalPosition(VoxelChunk chunk, Vector3I localPosition)
+        // {
+        //     return new Vector3I(chunk.ChunkUnitPosition.X * 16, localPosition.Y, chunk.ChunkUnitPosition.Y * 16);
+        // }
         public static BlockRegistryItem GetBlock(VoxelChunk chunk, Vector3I localPosition)
         {
             int blockID = GetBlockID(chunk, localPosition);
@@ -215,6 +308,7 @@ public partial class VoxelChunk : StaticBody3D
     public static VoxelChunk Create(Vector2I chunkUnitPosition)
     {
         VoxelChunk chunk = SCENE.Instantiate<VoxelChunk>();
+        chunk.ChunkUnitPosition = chunkUnitPosition;
         chunk.Position = new Vector3(chunkUnitPosition.X * 16, 0, chunkUnitPosition.Y * 16);
         chunk.Name = Terrain.GetChunkName(chunkUnitPosition);
         return chunk;

@@ -17,9 +17,9 @@ public partial class Main : Node3D
 
         AddChild(Terrain.Init());
 
-        for (int y = 0; y < 3; y++)
+        for (int y = -2; y < 2; y++)
         {
-            for (int x = 0; x < 3; x++)
+            for (int x = -2; x < 2; x++)
             {
                 chunks.Add(Terrain.LoadChunk(new Vector2I(x, y)));
             }
@@ -28,7 +28,7 @@ public partial class Main : Node3D
         Godot.Timer timer = new();
         timer.Timeout += timeout;
         timer.Autostart = true;
-        timer.WaitTime = 0.5;
+        timer.WaitTime = 0.2;
         AddChild(timer);
 
         BlockRegistry.PrintItems();
@@ -39,11 +39,11 @@ public partial class Main : Node3D
     
     public async void timeout()
     {
-        current = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.MapleLog.ItemName).ID;
+        current = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.DefaultBlock.ItemName).ID;
         
         foreach (VoxelChunk chunk in chunks)
         {
-            Terrain.SetBlockLocal(chunk, pos, current, 1);
+            Terrain.SetBlockLocal(chunk, pos, current, 0);
         }
 
         pos.X += 1;
