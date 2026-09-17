@@ -2,6 +2,9 @@ using Godot;
 
 namespace VoxelTerra.Debugging;
 
+/// <summary>
+/// An AutoLoad class that is used for various debugging tasks. It also has it's own user interface 🔥
+/// </summary>
 public partial class VTDebug : Node
 {
     private static VTDebug instance;
@@ -11,10 +14,10 @@ public partial class VTDebug : Node
     [Export] private Label VSyncLabel;
 
     /// <summary>
-    /// Pushed an error, and pauses the game.
+    /// Pushes an error to Godot and pauses the game.
     /// </summary>
     /// <param name="message"></param>
-    public static void ErrorAbort(string message)
+    public static void ErrorPause(string message)
     {
         Input.MouseMode = Input.MouseModeEnum.Visible;
         Window.GetFocusedWindow().Title = "ErrorAbort: " + message;
@@ -34,7 +37,7 @@ public partial class VTDebug : Node
     {
         if (instance != null)
         {
-            ErrorAbort("Created multiple instances of VTDebug");
+            ErrorPause("Created multiple instances of VTDebug");
         }
 
         instance = this;

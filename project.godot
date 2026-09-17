@@ -13,7 +13,8 @@ config_version=5
 config/name="VoxelTerra"
 run/main_scene="uid://b2pe4ckn0pcay"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
-boot_splash/image="uid://c7ymiu8i32gcp"
+boot_splash/bg_color=Color(0.21568628, 0.14117648, 0.1254902, 1)
+boot_splash/image="uid://0vvhpud0p82u"
 config/icon="uid://c7ymiu8i32gcp"
 
 [autoload]

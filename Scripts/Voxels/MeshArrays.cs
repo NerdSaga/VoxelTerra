@@ -2,6 +2,9 @@ using Godot;
 
 namespace VoxelTerra.Voxels;
 
+/// <summary>
+/// Stores mesh information as arrays. Create a new instance by using MeshArrays.Load(pathToFile)
+/// </summary>
 public class MeshArrays
 {
     

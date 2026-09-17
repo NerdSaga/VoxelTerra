@@ -3,6 +3,9 @@ using System;
 
 namespace VoxelTerra.Voxels;
 
+/// <summary>
+/// Used for generating voxel meshes.
+/// </summary>
 public partial class VoxelMesh : MeshInstance3D
 {
 
@@ -11,6 +14,9 @@ public partial class VoxelMesh : MeshInstance3D
     private int[] surfaceVertexCounts;
     private ArrayMesh mesh = new();
 
+    /// <summary>
+    /// Called before sending data to a VoxelMesh.
+    /// </summary>
     public void Begin()
     {
         // mesh.ClearSurfaces();
@@ -24,6 +30,9 @@ public partial class VoxelMesh : MeshInstance3D
         }
     }
 
+    /// <summary>
+    /// Called after sending data to a VoxelMesh to generate the mesh.
+    /// </summary>
     public void Commit()
     {
         mesh.ClearSurfaces();
@@ -35,7 +44,7 @@ public partial class VoxelMesh : MeshInstance3D
     }
 
     /// <summary>
-    /// Sets a mesh to a local position on the mesh.
+    /// Sets a mesh to a local position on the mesh. Before calling this function, always call Begin()
     /// </summary>
     /// <param name="surfaceID"></param>
     /// <param name="meshData"></param>
@@ -69,7 +78,7 @@ public partial class VoxelMesh : MeshInstance3D
     }
 
     /// <summary>
-    /// Sets a single voxel to a local position on the mesh.
+    /// Sets a single voxel to a local position on the mesh. Before calling this function, always call Begin()
     /// </summary>
     /// <param name="surfaceID"></param>
     /// <param name="position"></param>

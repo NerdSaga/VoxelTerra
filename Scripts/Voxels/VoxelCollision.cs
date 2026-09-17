@@ -4,6 +4,9 @@ using Godot;
 
 namespace VoxelTerra.Voxels;
 
+/// <summary>
+/// Used for generating voxel collisions.
+/// </summary>
 public partial class VoxelCollision : CollisionShape3D
 {
 

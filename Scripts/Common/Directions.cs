@@ -2,6 +2,9 @@ using Godot;
 
 namespace VoxelTerra.Common;
 
+/// <summary>
+/// Contains dommon definitions for standard compassy directions in VoxelTerra. N, S, E, W, etc...
+/// </summary>
 public static class Directions
 {
     public static Vector3 UP {get;} = new Vector3(0, 1, 0);

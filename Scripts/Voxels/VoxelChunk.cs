@@ -6,14 +6,20 @@ using VoxelTerra.TerrainGeneration;
 
 namespace VoxelTerra.Voxels;
 
+/// <summary>
+/// Contains a column of voxels with a collision, and mesh. The voxel size of a chunk is 16 * 256 * 16.
+/// </summary>
 public partial class VoxelChunk : StaticBody3D
 {
-    public UInt16[] Blocks {get;} = new ushort[16 * 16 * 256];
+    public UInt16[] Blocks {get;} = new UInt16[16 * 16 * 256];
     public VoxelMesh VMesh;
     public VoxelCollision VCollision;
     public VoxelChunk[] Neighbors;
+    /// <summary>
+    /// The world position of a chunk in square chunk-size units: 16 x 16
+    /// </summary>
     public Vector2I ChunkUnitPosition = Vector2I.Zero;
-    public Vector3I GlobalPosition
+    public Vector3I WorldPosition
     {
         get
         {
@@ -21,6 +27,9 @@ public partial class VoxelChunk : StaticBody3D
         }
     }
 
+    /// <summary>
+    /// Contains static functions that are relivant to mesh and collision generation.
+    /// </summary>
     private static class ChunkUtils
     {
         public static bool[] GetMeshFaces(VoxelChunk chunk, BlockRegistryItem block, Vector3I localPosition, BlockVariant blockVariant)
@@ -202,6 +211,9 @@ public partial class VoxelChunk : StaticBody3D
         }
     }
 
+    /// <summary>
+    /// Used as indicies for neighbors array.
+    /// </summary>
     public enum NeighborDirection
     {
         NW = 0,
@@ -214,6 +226,12 @@ public partial class VoxelChunk : StaticBody3D
         SE = 7
     }
 
+    /// <summary>
+    /// Sets a block at a index within the chunk.
+    /// </summary>
+    /// <param name="chunkBlockIndex"></param>
+    /// <param name="blockID"></param>
+    /// <param name="blockVariant"></param>
     public void SetBlock(int chunkBlockIndex, int blockID, int blockVariant)
     {
         blockVariant = blockVariant << 4 * 3;
@@ -221,6 +239,12 @@ public partial class VoxelChunk : StaticBody3D
         Blocks[chunkBlockIndex] = blockBytes;
     }
 
+    /// <summary>
+    /// Sets a block at a local position within the chunk.
+    /// </summary>
+    /// <param name="localPosition"></param>
+    /// <param name="blockID"></param>
+    /// <param name="blockVariant"></param>
     public void SetBlock(Vector3I localPosition, int blockID, int blockVariant)
     {
         int chunkBlockIndex = localPosition.X;
@@ -229,6 +253,11 @@ public partial class VoxelChunk : StaticBody3D
         SetBlock(chunkBlockIndex, blockID, blockVariant);
     }
 
+    /// <summary>
+    /// Gets a neighbor of the chunk that is in a specific compass direction.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
     public VoxelChunk GetNeighbor(NeighborDirection direction)
     {
         return Neighbors[(int)direction];

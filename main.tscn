@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://briwta3nb7kst" path="res://Main.cs" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dsl2m6od34f7c" path="res://Scripts/PlayerControlers/freecam_controler.tscn" id="2_0xm2m"]
 [ext_resource type="Material" uid="uid://b6gfwtmqjm7kp" path="res://Scripts/Voxels/ChunkMaterials/solid_block.material" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://bi8tlw0juew1x" path="res://Scripts/TerrainGeneration/terrain.tscn" id="4_1bvp3"]
 
 [sub_resource type="Environment" id="Environment_r0li4"]
 
@@ -26,3 +27,5 @@ environment = SubResource("Environment_r0li4")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=991031423]
 mesh = SubResource("BoxMesh_0t2qn")
 surface_material_override/0 = ExtResource("3_h2yge")
+
+[node name="Terrain" parent="." unique_id=1206436680 instance=ExtResource("4_1bvp3")]

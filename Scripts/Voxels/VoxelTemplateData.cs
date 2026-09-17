@@ -2,6 +2,9 @@ using Godot;
 
 namespace VoxelTerra.Voxels;
 
+/// <summary>
+/// Static data used as a template for a single cube voxel.
+/// </summary>
 public static class VoxelTemplateData {
     
     public static readonly Vector3[] VERTEX =

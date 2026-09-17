@@ -15,7 +15,6 @@ public partial class Main : Node3D
 
     public override void _Ready() {
 
-        AddChild(Terrain.Init());
 
         for (int y = -2; y < 2; y++)
         {
@@ -59,10 +58,4 @@ public partial class Main : Node3D
             pos.Y++;
         }
     }
-
-    public override void _ExitTree()
-    {
-        Terrain.Quit();
-    }
-
 }

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bi8tlw0juew1x"]
+
+[ext_resource type="Script" uid="uid://c0k3pwjrbusei" path="res://Scripts/TerrainGeneration/Terrain.cs" id="1_liwck"]
+
+[node name="Terrain" type="Node3D" unique_id=1206436680]
+script = ExtResource("1_liwck")

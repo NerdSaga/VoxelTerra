@@ -6,6 +6,11 @@ using VoxelTerra.Debugging;
 
 namespace VoxelTerra.Registries;
 
+/// <summary>
+/// An abstract registry class that as functions for getting registry items for objects
+/// such as blocks that appear in the oxel terrain, and others. Classes that are
+/// children of this class are AutoLoads.
+/// </summary>
 public abstract partial class VTRegistry : Node
 {
     protected static VTRegistry instance;
@@ -14,6 +19,9 @@ public abstract partial class VTRegistry : Node
     protected VTRegistryItem[] itemsArray = {};
     protected string PREFIX = "vt_registry";
 
+    /// <summary>
+    /// Prints all items that are in this registry to the console. Used for debugging.
+    /// </summary>
     public static void PrintItems()
     {
         foreach (VTRegistryItem item in instance.itemsArray)
@@ -22,13 +30,20 @@ public abstract partial class VTRegistry : Node
         }
     }
 
+    /// <summary>
+    /// This abstract function is where all items in this registry are registered.
+    /// </summary>
     protected abstract void init();
+
+    /// <summary>
+    /// Adds a new item to this registry. The item should have a uniquely defined item name.
+    /// </summary>
+    /// <param name="item"></param>
     protected void register(VTRegistryItem item)
     {
         items.Add(item);
         itemsDict[item.ITEM_NAME] = item;
     }
-
 
     class ItemComparer : IComparer<VTRegistryItem>
     {
@@ -38,6 +53,10 @@ public abstract partial class VTRegistry : Node
         }
     }
     private ItemComparer itemComparer = new();
+    
+    /// <summary>
+    /// Sorts, indexes, and commits all items added from register() to itemsArray.
+    /// </summary>
     private void commitItems()
     {
         // Sort the items.
@@ -50,6 +69,7 @@ public abstract partial class VTRegistry : Node
         }
     }
 
+    
     public VTRegistryItem getItem(string itemName)
     {
         return itemsDict[itemName];
@@ -59,43 +79,6 @@ public abstract partial class VTRegistry : Node
     {
         return itemsArray[itemID];
     }
-    // protected Dictionary<string, VTRegistryItem> itemsDict = new();
-    // protected VTRegistryItem[] itemsArray;
-    // protected string prefix = "registry_item";
-
-    // protected abstract void init();
-
-    // public abstract VTRegistryItem GetItem(string key);
-    // public abstract VTRegistryItem GetItem(int index);
-
-    // protected void commitItems()
-    // {
-    //     int index = 0;
-    //     itemsArray = new VTRegistryItem[itemsDict.Count];
-    //     foreach (var item in itemsDict)
-    //     {
-    //         item.Value.ID = index;
-    //         itemsArray[index] = item.Value;
-    //         index++;
-    //     }
-    // }
-
-    // protected void register(string key, VTRegistryItem item)
-    // {
-    //     if (!itemsDict.TryAdd(key, item))
-    //     {
-    //         VTDebug.ErrorAbort("Attempted to register a duplicate item: " + key);
-    //     }
-    // }
-
-    // public static void PrintItems()
-    // {
-    //     foreach (var item in instance.itemsDict)
-    //     {
-    //         GD.Print($"{item.Value.ID}: {instance.prefix}:{item.Key}");
-    //     }
-    // }
-
 
     public override void _EnterTree()
     {

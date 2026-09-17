@@ -2,8 +2,12 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using Godot;
-using VoxelTerra.Voxels;
 
+namespace VoxelTerra.Voxels;
+
+/// <summary>
+/// A worker thread for regenerating chunk mesh, and collision.
+/// </summary>
 public partial class VoxelChunkBuilder : Node
 {
 
@@ -14,12 +18,20 @@ public partial class VoxelChunkBuilder : Node
     private AutoResetEvent continueBuild = new(false);
     private ConcurrentDictionary<string, VoxelChunk> chunksToBuild = new();
 
+    /// <summary>
+    /// Queues a chunk for regeneration.
+    /// </summary>
+    /// <param name="chunk"></param>
     public static void BuildChunk(VoxelChunk chunk)
     {
         instance.chunksToBuild[chunk.Name] = chunk;
         instance.chunksAvailable.Set();
     }
 
+    /// <summary>
+    /// Queues an array of chunks for regeneration.
+    /// </summary>
+    /// <param name="chunks"></param>
     public static void BuildChunks(VoxelChunk[] chunks)
     {
         foreach (VoxelChunk chunk in chunks)
@@ -29,7 +41,10 @@ public partial class VoxelChunkBuilder : Node
         instance.chunksAvailable.Set();
     }
 
-    private void ThreadMain()
+    /// <summary>
+    /// The main method of this worker.
+    /// </summary>
+    private void threadMain()
     {
         while (running)
         {
@@ -80,7 +95,7 @@ public partial class VoxelChunkBuilder : Node
         Name = "VoxelChunkBuilder";
         instance = this;
         running = true;
-        thread = new(ThreadMain);
+        thread = new(threadMain);
         thread.Name = "VoxelChunkBuilder";
         thread.Start();
     }

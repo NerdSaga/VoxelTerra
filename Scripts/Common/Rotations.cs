@@ -2,6 +2,9 @@ using Godot;
 
 namespace VoxelTerra.Common;
 
+/// <summary>
+/// Contains definitions for rotations at right angles.
+/// </summary>
 public static class Rotations
 {
     public static float R0 {get;} = 0.0f;
