@@ -12,9 +12,9 @@ public class MapleLog : BlockRegistryItem, IVTRegistryItem
         CollisionType = BlockCollisionType.SOLID;
         SetVariants(new BlockVariant[]
         {
-            new BlockVariant // Up facing
+            new BlockVariantVoxel // Up facing
             {
-                FaceAtlasTilePositions = new BlockVariant.BlockFaceAtlasTilePositions
+                FaceAtlasTilePositions = new BlockVariantVoxel.BlockFaceAtlasTilePositions
                 {
                     Top = new Vector2I(4, 0),
                     Bottom = new Vector2I(4, 0),
@@ -25,9 +25,9 @@ public class MapleLog : BlockRegistryItem, IVTRegistryItem
                 }
             },
 
-            new BlockVariant // North facing
+            new BlockVariantVoxel // North facing
             {
-                FaceAtlasTilePositions = new BlockVariant.BlockFaceAtlasTilePositions
+                FaceAtlasTilePositions = new BlockVariantVoxel.BlockFaceAtlasTilePositions
                 {
                     Top = new Vector2I(5, 0),
                     Bottom = new Vector2I(5, 0),
@@ -36,16 +36,16 @@ public class MapleLog : BlockRegistryItem, IVTRegistryItem
                     East = new Vector2I(5, 0),
                     West = new Vector2I(5, 0),
                 },
-                FaceAtlasTileRotations = new BlockVariant.BlockFaceAtlasTileRotations
+                FaceAtlasTileRotations = new BlockVariantVoxel.BlockFaceAtlasTileRotations
                 {
                     East = Common.Rotations.R270,
                     West = Common.Rotations.R90,
                 }
             },
 
-            new BlockVariant // East facing
+            new BlockVariantVoxel // East facing
             {
-                FaceAtlasTilePositions = new BlockVariant.BlockFaceAtlasTilePositions
+                FaceAtlasTilePositions = new BlockVariantVoxel.BlockFaceAtlasTilePositions
                 {
                     Top = new Vector2I(5, 0),
                     Bottom = new Vector2I(5, 0),
@@ -55,7 +55,7 @@ public class MapleLog : BlockRegistryItem, IVTRegistryItem
                     West = new Vector2I(4, 0),
                 },
 
-                FaceAtlasTileRotations = new BlockVariant.BlockFaceAtlasTileRotations
+                FaceAtlasTileRotations = new BlockVariantVoxel.BlockFaceAtlasTileRotations
                 {
                     Top = Common.Rotations.R270,
                     Bottom = Common.Rotations.R90,

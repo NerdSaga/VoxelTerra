@@ -5,10 +5,12 @@
 [ext_resource type="Material" uid="uid://b6gfwtmqjm7kp" path="res://Scripts/Voxels/ChunkMaterials/solid_block.material" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://bi8tlw0juew1x" path="res://Scripts/TerrainGeneration/terrain.tscn" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://ciqhclojwqfwe" path="res://Scripts/TerrainGeneration/Generators/TerrainVoxelTerra.cs" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://dqoupda1jm7id" path="res://World/clouds.tscn" id="6_7mycd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_272bh"]
-sky_top_color = Color(0.4291617, 0.62449795, 0.8164716, 1)
-ground_bottom_color = Color(0.64705884, 0.654902, 0.67058825, 1)
+sky_top_color = Color(0.4480505, 0.6818589, 0.8975146, 1)
+sky_horizon_color = Color(0.66844374, 0.78914297, 0.69159347, 1)
+ground_bottom_color = Color(0.5503225, 0.5634262, 0.5721522, 1)
 sun_angle_max = 0.0
 
 [sub_resource type="Sky" id="Sky_7mycd"]
@@ -18,12 +20,18 @@ sky_material = SubResource("ProceduralSkyMaterial_272bh")
 background_mode = 2
 sky = SubResource("Sky_7mycd")
 tonemap_mode = 2
-ssao_intensity = 14.42
-glow_bloom = 0.46
+ssao_enabled = true
+ssao_radius = 1.6
+ssao_intensity = 2.68
+glow_enabled = true
+glow_levels/1 = 1.23
+glow_levels/7 = 3.3
+glow_bloom = 0.05
+fog_enabled = true
 fog_mode = 1
 fog_density = 1.0
 fog_sky_affect = 0.0
-fog_depth_end = 637.3
+fog_depth_end = 361.7
 
 [sub_resource type="BoxMesh" id="BoxMesh_0t2qn"]
 
@@ -35,10 +43,10 @@ metadata/_custom_type_script = "uid://ciqhclojwqfwe"
 script = ExtResource("1_ig7tw")
 
 [node name="FreecamControler" parent="." unique_id=224436730 instance=ExtResource("2_0xm2m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 29.099571, 6.70172)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1369746597]
-transform = Transform3D(0.96822757, 0.21576433, -0.12641655, 0, 0.5055231, 0.86281306, 0.25007078, -0.8353994, 0.4894614, 0, 0, 0)
+transform = Transform3D(0.9682277, 0.21576436, -0.1264166, -0.049347818, 0.6604364, 0.7492589, 0.24515344, -0.7192146, 0.65010023, 0, 0, 0)
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=877239316]
@@ -50,3 +58,5 @@ surface_material_override/0 = ExtResource("3_h2yge")
 
 [node name="Terrain" parent="." unique_id=1206436680 instance=ExtResource("4_1bvp3")]
 terrainGenerator = SubResource("Resource_nh5ws")
+
+[node name="Clouds" parent="." unique_id=605986175 instance=ExtResource("6_7mycd")]

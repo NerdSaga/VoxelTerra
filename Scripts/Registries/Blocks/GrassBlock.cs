@@ -15,9 +15,9 @@ public class GrassBlock : BlockRegistryItem, IVTRegistryItem
         SetVariants(
             new BlockVariant[]
             {
-                new BlockVariant()
+                new BlockVariantVoxel()
                 {
-                    FaceAtlasTilePositions = new BlockVariant.BlockFaceAtlasTilePositions
+                    FaceAtlasTilePositions = new BlockVariantVoxel.BlockFaceAtlasTilePositions
                     {
                         Top = new Vector2I(2, 0),
                         Bottom = new Vector2I(1, 0),

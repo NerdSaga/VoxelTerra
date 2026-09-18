@@ -12,9 +12,9 @@ public class DirtBlock : BlockRegistryItem, IVTRegistryItem
         CollisionType = BlockCollisionType.SOLID;
         SetVariants(new BlockVariant[]
         {
-            new BlockVariant
+            new BlockVariantVoxel
             {
-                FaceAtlasTilePositions = new BlockVariant.BlockFaceAtlasTilePositions
+                FaceAtlasTilePositions = new BlockVariantVoxel.BlockFaceAtlasTilePositions
                 {
                     Top = new Vector2I(1, 0),
                     Bottom = new Vector2I(1, 0),

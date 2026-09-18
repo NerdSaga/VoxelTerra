@@ -17,9 +17,9 @@ public partial class Main : Node3D
 
 
 
-        for (int y = -4; y < 4; y++)
+        for (int y = -10; y < 10; y++)
         {
-            for (int x = -4; x < 4; x++)
+            for (int x = -10; x < 10; x++)
             {
                 chunks.Add(Terrain.LoadChunk(new Vector2I(x, y)));
             }
@@ -34,24 +34,21 @@ public partial class Main : Node3D
         // Godot.Timer timer = new();
         // timer.Timeout += timeout;
         // timer.Autostart = true;
-        // timer.WaitTime = 0.2;
+        // timer.WaitTime = 0.5;
         // AddChild(timer);
 
-        BlockRegistry.PrintItems();
+        // BlockRegistry.PrintItems();
     }
 
-    // Vector3I pos = Vector3I.Zero;
-    // int current = 4;
+    Vector3I pos = Vector3I.Zero;
+    int current = 4;
     
     // public async void timeout()
     // {
-    //     current = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.DefaultBlock.ItemName).ID;
+    //     current = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.Empty.ItemName).ID;
         
-    //     foreach (VoxelChunk chunk in chunks)
-    //     {
-    //         Terrain.SetBlockLocal(chunk, pos, current, 0);
-    //         Terrain.BuildChunk(chunk);
-    //     }
+    //     Terrain.SetBlockLocal(chunks[0], pos, current, 0);
+    //     Terrain.BuildChunk(chunks[0]);
 
     //     pos.X += 1;
     //     if (pos.X >= 16)

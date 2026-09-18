@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dqoupda1jm7id"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hdrab"]
+albedo_color = Color(1, 1, 1, 0.84705883)
+rim_tint = 1.0
+subsurf_scatter_enabled = true
+subsurf_scatter_strength = 0.68
+subsurf_scatter_transmittance_color = Color(0.12125271, 0.49780232, 0.43343207, 1)
+subsurf_scatter_transmittance_depth = 1.466
+subsurf_scatter_transmittance_boost = 1.0
+backlight = Color(0.7641606, 0.9892004, 0.99008983, 1)
+distance_fade_mode = 2
+distance_fade_max_distance = 30.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ox2r5"]
+emission_shape_offset = Vector3(-512, 110, 0)
+emission_shape = 3
+emission_box_extents = Vector3(1, 30, 512)
+spread = 0.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_r0li4"]
+size = Vector3(30, 5, 30)
+
+[node name="Clouds" type="GPUParticles3D" unique_id=21270679]
+material_override = SubResource("StandardMaterial3D_hdrab")
+extra_cull_margin = 10000.0
+amount = 600
+lifetime = 600.0
+preprocess = 600.0
+process_material = SubResource("ParticleProcessMaterial_ox2r5")
+draw_pass_1 = SubResource("BoxMesh_r0li4")

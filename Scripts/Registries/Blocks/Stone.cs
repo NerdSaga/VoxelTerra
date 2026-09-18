@@ -16,9 +16,9 @@ public class Stone : BlockRegistryItem, IVTRegistryItem
 
         SetVariants(new BlockVariant[]
         {
-            new BlockVariant()
+            new BlockVariantVoxel()
             {
-                FaceAtlasTilePositions = new BlockVariant.BlockFaceAtlasTilePositions()
+                FaceAtlasTilePositions = new BlockVariantVoxel.BlockFaceAtlasTilePositions()
                 {
                     Top = new Vector2I(0, 0),
                     Bottom = new Vector2I(0, 0),

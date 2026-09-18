@@ -5,10 +5,14 @@ namespace VoxelTerra.Registries;
 
 public class BlockVariant
 {
+
+}
+
+public class BlockVariantVoxel : BlockVariant
+{
     /// <summary>
     /// Used by block faces to map textures to block atlas texture tiles. This should remain as six elements.
     /// </summary>
-    
 
     public class BlockFaceAtlasTilePositions
     {
@@ -88,4 +92,11 @@ public class BlockVariant
 
         return uv;
     }
+}
+
+public class BlockVariantMesh : BlockVariant
+{
+    public MeshArrays MeshArrays;
+
+    public Vector3 Rotation = Vector3.Zero;
 }

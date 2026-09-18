@@ -9,6 +9,7 @@
 [sub_resource type="BoxMesh" id="BoxMesh_0t2qn"]
 
 [node name="VoxelChunk" type="StaticBody3D" unique_id=1700418073]
+collision_layer = 2
 script = ExtResource("1_xr735")
 
 [node name="VoxelMesh" parent="." unique_id=251247601 instance=ExtResource("2_w50xe")]

@@ -29,7 +29,6 @@ window/size/viewport_width=1366
 window/size/viewport_height=768
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-window/vsync/vsync_mode=0
 
 [dotnet]
 
@@ -78,10 +77,18 @@ toggle_fullscreen={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="Entity"
+3d_physics/layer_2="Terrain"
+
 [physics]
 
+3d/run_on_separate_thread=true
 3d/physics_engine="Jolt Physics"
 
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+shading/overrides/force_vertex_shading=true
+environment/ssao/quality=4
