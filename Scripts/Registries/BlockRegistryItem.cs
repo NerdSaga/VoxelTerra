@@ -7,6 +7,7 @@ namespace VoxelTerra.Registries;
 
 public abstract class BlockRegistryItem : VTRegistryItem
 {
+    public int SurfaceID = 0;
     private BlockVariant[] variants = new BlockVariant[] {new BlockVariant()};
 
     public enum BlockRenderType

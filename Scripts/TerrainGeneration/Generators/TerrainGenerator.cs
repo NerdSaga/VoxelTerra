@@ -32,7 +32,17 @@ public abstract partial class TerrainGenerator : Resource
             }
         }
     }
-
+    /// <summary>
+    /// This function takes the place of the class constructor.
+    /// This is needed because the terrain seed cannot be initialised
+    /// in ths class constructor.
+    /// </summary>
+    public void Init()
+    {
+        randomNoise.Seed = Seed;
+        init();
+    }
+    
     private FastNoiseLite randomNoise = new FastNoiseLite
     {
         NoiseType = FastNoiseLite.NoiseTypeEnum.Cellular,
@@ -54,13 +64,14 @@ public abstract partial class TerrainGenerator : Resource
     }
 
     /// <summary>
-    /// This function takes the place of the class constructor.
-    /// This is needed because the terrain seed cannot be initialised
-    /// in ths class constructor.
+    /// Converts a local position within a chunk to a world position.
     /// </summary>
-    public void Init()
+    /// <param name="chunk"></param>
+    /// <param name="localPosition"></param>
+    /// <returns></returns>
+    protected Vector3I toWorldPosition(Vector3I localPosition, VoxelChunk chunk)
     {
-        randomNoise.Seed = Seed;
-        init();
+        Vector3I worldPosition = chunk.WorldPosition + localPosition;
+        return worldPosition;
     }
 }

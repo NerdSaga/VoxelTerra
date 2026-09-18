@@ -32,61 +32,153 @@ public partial class VoxelChunk : StaticBody3D
     /// </summary>
     private static class ChunkUtils
     {
-        public static bool[] GetMeshFaces(VoxelChunk chunk, BlockRegistryItem block, Vector3I localPosition, BlockVariant blockVariant)
+        public static bool[][] GetMeshFaces(VoxelChunk chunk, BlockRegistryItem block, Vector3I localPosition, BlockVariant blockVariant)
         {
+            bool[][] faces = {null, null};
+
             switch (block.RenderType)
             {
                 case BlockRegistryItem.BlockRenderType.VOID:
-                    return new bool[] {false, false, false, false, false, false};
+                    faces[0] = new bool[] {false, false, false, false, false, false};
+                    break;
                 
                 case BlockRegistryItem.BlockRenderType.ALL_FACES:
-                    return new bool[] {true, true, true, true, true, true};
-
-                case BlockRegistryItem.BlockRenderType.SOLID:
-                {
-                    // Only false if next to solid.
-                    BlockRegistryItem blockT = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 1, 0)));
-                    BlockRegistryItem blockB = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, -1, 0)));
-                    BlockRegistryItem blockN = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(1, 0, 0)));
-                    BlockRegistryItem blockS = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(-1, 0, 0)));
-                    BlockRegistryItem blockE = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 0, 1)));
-                    BlockRegistryItem blockW = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 0, -1)));
-
-                    return new bool[]
-                    {
-                        blockT.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
-                        blockB.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
-                        blockN.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
-                        blockS.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
-                        blockE.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
-                        blockW.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
-                    };
-                }
-
-
-                case BlockRegistryItem.BlockRenderType.TRANSPARENT:
-                {
-                    // Only false if next to same block.
-                    int blockidT = GetBlockID(chunk, localPosition + new Vector3I(0, 1, 0));
-                    int blockidB = GetBlockID(chunk, localPosition + new Vector3I(0, -1, 0));
-                    int blockidN = GetBlockID(chunk, localPosition + new Vector3I(1, 0, 0));
-                    int blockidS = GetBlockID(chunk, localPosition + new Vector3I(-1, 0, 0));
-                    int blockidE = GetBlockID(chunk, localPosition + new Vector3I(0, 0, 1));
-                    int blockidW = GetBlockID(chunk, localPosition + new Vector3I(0, 0, -1));
-
-                    return new bool[]
-                    {
-                        block.ID != blockidT,
-                        block.ID != blockidB,
-                        block.ID != blockidN,
-                        block.ID != blockidS,
-                        block.ID != blockidE,
-                        block.ID != blockidW,
-                    };
-                }
-
+                    faces[0] = new bool[] {true, true, true, true, true, true};
+                    break;
             }
-            return new bool[] {false, false, false, false, false, false};
+
+            switch (block.CollisionType)
+            {
+                case BlockRegistryItem.BlockCollisionType.VOID:
+                    faces[1] = new bool[] {false, false, false, false, false, false};
+                    break;
+                
+                case BlockRegistryItem.BlockCollisionType.ALL_FACES:
+                    faces[1] = new bool[] {true, true, true, true, true, true};
+                    break;
+            }
+
+            if (faces[0] != null && faces[1] != null) { return faces; }
+
+            BlockRegistryItem blockT = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 1, 0)));
+            BlockRegistryItem blockB = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, -1, 0)));
+            BlockRegistryItem blockN = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(1, 0, 0)));
+            BlockRegistryItem blockS = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(-1, 0, 0)));
+            BlockRegistryItem blockE = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 0, 1)));
+            BlockRegistryItem blockW = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 0, -1)));
+
+            if (faces[0] == null)
+            {
+                switch (block.RenderType)
+                {
+                    case BlockRegistryItem.BlockRenderType.SOLID:
+                        faces[0] = new bool[]
+                        {
+                            blockT.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                            blockB.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                            blockN.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                            blockS.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                            blockE.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                            blockW.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                        };
+                        break;
+                    
+                    case BlockRegistryItem.BlockRenderType.TRANSPARENT:
+                        faces[0] = new bool[]
+                        {
+                            block.ID != blockT.ID && blockT.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                            block.ID != blockB.ID && blockB.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                            block.ID != blockN.ID && blockN.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                            block.ID != blockS.ID && blockS.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                            block.ID != blockE.ID && blockE.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                            block.ID != blockW.ID && blockW.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                        };
+                        break;
+                }
+            }
+
+            if (faces[1] == null)
+            {
+                switch (block.CollisionType)
+                {
+                    case BlockRegistryItem.BlockCollisionType.SOLID:
+                        faces[1] = new bool[]
+                        {
+                            blockT.CollisionType != BlockRegistryItem.BlockCollisionType.SOLID,
+                            blockB.CollisionType != BlockRegistryItem.BlockCollisionType.SOLID,
+                            blockN.CollisionType != BlockRegistryItem.BlockCollisionType.SOLID,
+                            blockS.CollisionType != BlockRegistryItem.BlockCollisionType.SOLID,
+                            blockE.CollisionType != BlockRegistryItem.BlockCollisionType.SOLID,
+                            blockW.CollisionType != BlockRegistryItem.BlockCollisionType.SOLID,
+                        };
+                        break;
+                    
+                    case BlockRegistryItem.BlockCollisionType.TRANSPARENT:
+                        faces[1] = new bool[]
+                        {
+                            // Not the same block \\ or // Not next to solid
+                            block.ID != blockT.ID && blockT.CollisionType != BlockRegistryItem.BlockCollisionType.SOLID,
+                            block.ID != blockB.ID && blockB.CollisionType != BlockRegistryItem.BlockCollisionType.SOLID,
+                            block.ID != blockN.ID && blockN.CollisionType != BlockRegistryItem.BlockCollisionType.SOLID,
+                            block.ID != blockS.ID && blockS.CollisionType != BlockRegistryItem.BlockCollisionType.SOLID,
+                            block.ID != blockE.ID && blockE.CollisionType != BlockRegistryItem.BlockCollisionType.SOLID,
+                            block.ID != blockW.ID && blockW.CollisionType != BlockRegistryItem.BlockCollisionType.SOLID,
+                        };
+                        break;
+                }
+            }
+            
+            return faces;
+            //     case BlockRegistryItem.BlockRenderType.SOLID:
+            //     {
+            //         // Only false if next to solid.
+            //         BlockRegistryItem blockT = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 1, 0)));
+            //         BlockRegistryItem blockB = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, -1, 0)));
+            //         BlockRegistryItem blockN = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(1, 0, 0)));
+            //         BlockRegistryItem blockS = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(-1, 0, 0)));
+            //         BlockRegistryItem blockE = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 0, 1)));
+            //         BlockRegistryItem blockW = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 0, -1)));
+
+            //         return new bool[]
+            //         {
+            //             blockT.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+            //             blockB.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+            //             blockN.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+            //             blockS.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+            //             blockE.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+            //             blockW.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+            //         };
+            //     }
+
+
+            //     case BlockRegistryItem.BlockRenderType.TRANSPARENT:
+            //     {
+            //         // Only false if next to same block.
+            //         // int blockidT = GetBlockID(chunk, localPosition + new Vector3I(0, 1, 0));
+            //         // int blockidB = GetBlockID(chunk, localPosition + new Vector3I(0, -1, 0));
+            //         // int blockidN = GetBlockID(chunk, localPosition + new Vector3I(1, 0, 0));
+            //         // int blockidS = GetBlockID(chunk, localPosition + new Vector3I(-1, 0, 0));
+            //         // int blockidE = GetBlockID(chunk, localPosition + new Vector3I(0, 0, 1));
+            //         // int blockidW = GetBlockID(chunk, localPosition + new Vector3I(0, 0, -1));
+            //         BlockRegistryItem blockT = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 1, 0)));
+            //         BlockRegistryItem blockB = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, -1, 0)));
+            //         BlockRegistryItem blockN = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(1, 0, 0)));
+            //         BlockRegistryItem blockS = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(-1, 0, 0)));
+            //         BlockRegistryItem blockE = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 0, 1)));
+            //         BlockRegistryItem blockW = BlockRegistry.GetItem(GetBlockID(chunk, localPosition + new Vector3I(0, 0, -1)));
+            //         return new bool[]
+            //         {
+            //             block.ID != blockT.ID && blockT.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+            //             block.ID != blockB.ID && blockB.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+            //             block.ID != blockN.ID && blockN.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+            //             block.ID != blockS.ID && blockS.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+            //             block.ID != blockE.ID && blockE.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+            //             block.ID != blockW.ID && blockW.RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+            //         };
+            //     }
+
+            // }
+            // return new bool[] {false, false, false, false, false, false};
         }
 
         public static int GetBlockID(VoxelChunk chunk, Vector3I localPosition)
@@ -283,18 +375,18 @@ public partial class VoxelChunk : StaticBody3D
             BlockRegistryItem block = BlockRegistry.GetItem(blockID);
             BlockVariant blockVariant = block.GetVariant(blockVariantID);
 
-            bool[] faces = ChunkUtils.GetMeshFaces(chunk, block, new Vector3I(x, y, z), blockVariant);
+            bool[][] faces = ChunkUtils.GetMeshFaces(chunk, block, new Vector3I(x, y, z), blockVariant);
 
             if (blockID != 0)
             {
                 if (block.RenderType != BlockRegistryItem.BlockRenderType.VOID)
                 {
-                    chunk.VMesh.AddVoxel(0, new Vector3(x, y, z), blockVariant.GenerateBlockUV(), VoxelTemplateData.COLOR, faces);
+                    chunk.VMesh.AddVoxel(block.SurfaceID, new Vector3(x, y, z), blockVariant.GenerateBlockUV(), VoxelTemplateData.COLOR, faces[0]);
                 }
 
                 if (block.CollisionType != BlockRegistryItem.BlockCollisionType.VOID)
                 {
-                    chunk.VCollision.AddVoxel(new Vector3(x, y, z), faces);
+                    chunk.VCollision.AddVoxel(new Vector3(x, y, z), faces[1]);
                 }
             }
 

@@ -13,6 +13,7 @@ public partial class BlockRegistry : VTRegistry
         register(new Blocks.Sand());
         register(new Blocks.DirtBlock());
         register(new Blocks.MapleLog());
+        register(new Blocks.MapleLeaves());
     }
 
     public static BlockRegistryItem GetItem(string blockName)

@@ -18,9 +18,8 @@ sky_material = SubResource("ProceduralSkyMaterial_272bh")
 background_mode = 2
 sky = SubResource("Sky_7mycd")
 tonemap_mode = 2
-ssao_enabled = true
+ssao_intensity = 14.42
 glow_bloom = 0.46
-fog_enabled = true
 fog_mode = 1
 fog_density = 1.0
 fog_sky_affect = 0.0
@@ -37,8 +36,6 @@ script = ExtResource("1_ig7tw")
 
 [node name="FreecamControler" parent="." unique_id=224436730 instance=ExtResource("2_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 29.099571, 6.70172)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="FreecamControler" unique_id=90024393]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1369746597]
 transform = Transform3D(0.96822757, 0.21576433, -0.12641655, 0, 0.5055231, 0.86281306, 0.25007078, -0.8353994, 0.4894614, 0, 0, 0)

@@ -12,22 +12,10 @@ public partial class TerrainVoxelTerra : TerrainGenerator
         public static int DirtBlock = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.DirtBlock.ItemName).ID;
         public static int GrassBlock = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.GrassBlock.ItemName).ID;
     }
-    protected override void generateFeatures(VoxelChunk chunk, Vector3I localPosition)
-    {
-        Vector3I worldPosition = chunk.WorldPosition + localPosition;
-        int terrainHeight = (int)(sampleTerrainHeight(new Vector2I(worldPosition.X, worldPosition.Z)) * 50);
-
-        Features.Tree tree = new();
-        if (sampleRandom2D(new Vector2I(worldPosition.X, worldPosition.Z)) > 0.9)
-        {
-            tree.Build(chunk, localPosition + new Vector3I(0, terrainHeight, 0));
-        }
-    }
-
     protected override void generateLand(VoxelChunk chunk, Vector3I localPosition)
     {
-        Vector3I worldPosition = chunk.WorldPosition + localPosition;
-        int terrainHeight = (int)(sampleTerrainHeight(new Vector2I(worldPosition.X, worldPosition.Z)) * 50);
+        Vector3I worldPosition = toWorldPosition(localPosition, chunk);
+        int terrainHeight = (int)sampleTerrainHeight(new Vector2I(worldPosition.X, worldPosition.Z));
 
         for (int y = 0; y < terrainHeight; y++)
         {
@@ -40,7 +28,20 @@ public partial class TerrainVoxelTerra : TerrainGenerator
             chunk.SetBlock(blockPosition, BlockIDs.DirtBlock, 0);
         }
     }
+    protected override void generateFeatures(VoxelChunk chunk, Vector3I localPosition)
+    {
+        Vector3I worldPosition = toWorldPosition(localPosition, chunk);
+        int terrainHeight = (int)(sampleTerrainHeight(new Vector2I(worldPosition.X, worldPosition.Z)) * 50);
 
+        distributeTree(chunk, localPosition);
+    }
+    protected override void init()
+    {
+        foreach (FastNoiseLite layer in terrainHeightLayers)
+        {
+            layer.Seed = Seed;
+        }
+    }
 
     private FastNoiseLite[] terrainHeightLayers =
     {
@@ -50,16 +51,23 @@ public partial class TerrainVoxelTerra : TerrainGenerator
         }
     };
 
-    public float sampleTerrainHeight(Vector2I position)
+    private float sampleTerrainHeight(Vector2I position)
     {
-        return (terrainHeightLayers[0].GetNoise2D(position.X, position.Y) + 1) / 2;
+        float noise = (terrainHeightLayers[0].GetNoise2D(position.X, position.Y) + 1) / 2;
+        return noise * 50;
     }
 
-    protected override void init()
+    private void distributeTree(VoxelChunk chunk, Vector3I localPosition)
     {
-        foreach (FastNoiseLite layer in terrainHeightLayers)
+        Vector3I worldPosition = toWorldPosition(localPosition, chunk);
+        int terrainHeight = (int)sampleTerrainHeight(new Vector2I(worldPosition.X, worldPosition.Z));
+
+        Features.Tree tree = new();
+        if (sampleRandom2D(new Vector2I(worldPosition.X, worldPosition.Z)) < 0.01)
         {
-            layer.Seed = Seed;
+            tree.Build(chunk, localPosition + new Vector3I(0, terrainHeight, 0));
         }
     }
+
+
 }

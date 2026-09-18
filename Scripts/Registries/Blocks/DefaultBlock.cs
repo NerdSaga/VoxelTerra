@@ -10,16 +10,5 @@ public class DefaultBlock : BlockRegistryItem, IVTRegistryItem
     {
         RenderType = BlockRenderType.SOLID;
         CollisionType = BlockCollisionType.VOID;
-
-        SetVariants(new BlockVariant[]
-        {
-            new BlockVariant
-            {
-                FaceAtlasTileRotations = new BlockVariant.BlockFaceAtlasTileRotations
-                {
-                    Top = Common.Rotations.R270,
-                }
-            }
-        });
     }
 }

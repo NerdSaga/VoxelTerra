@@ -17,9 +17,9 @@ public partial class Main : Node3D
 
 
 
-        for (int y = -8; y < 8; y++)
+        for (int y = -4; y < 4; y++)
         {
-            for (int x = -8; x < 8; x++)
+            for (int x = -4; x < 4; x++)
             {
                 chunks.Add(Terrain.LoadChunk(new Vector2I(x, y)));
             }
