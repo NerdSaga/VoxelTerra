@@ -10,8 +10,8 @@ public class GrassBlock : BlockRegistryItem, IVTRegistryItem
     public GrassBlock() : base(ItemName)
     {
 
-        RenderType = BlockRenderType.TRANSPARENT;
-        CollisionType = BlockCollisionType.VOID;
+        RenderType = BlockRenderType.SOLID;
+        CollisionType = BlockCollisionType.SOLID;
         SetVariants(
             new BlockVariant[]
             {
@@ -19,12 +19,12 @@ public class GrassBlock : BlockRegistryItem, IVTRegistryItem
                 {
                     FaceAtlasTilePositions = new BlockVariant.BlockFaceAtlasTilePositions
                     {
-                        Top = new Vector2I(3, 0),
+                        Top = new Vector2I(2, 0),
                         Bottom = new Vector2I(1, 0),
-                        North = new Vector2I(2, 0),
-                        South = new Vector2I(2, 0),
-                        East = new Vector2I(2, 0),
-                        West = new Vector2I(2, 0),
+                        North = new Vector2I(3, 0),
+                        South = new Vector2I(3, 0),
+                        East = new Vector2I(3, 0),
+                        West = new Vector2I(3, 0),
                     },
                 },
             }

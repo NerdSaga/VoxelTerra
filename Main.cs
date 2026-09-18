@@ -11,51 +11,59 @@ public partial class Main : Node3D
 {
 
     List<VoxelChunk> chunks = new();
-    Terrain terrain;
 
     public override void _Ready() {
 
 
-        for (int y = -2; y < 2; y++)
+
+
+        for (int y = -8; y < 8; y++)
         {
-            for (int x = -2; x < 2; x++)
+            for (int x = -8; x < 8; x++)
             {
                 chunks.Add(Terrain.LoadChunk(new Vector2I(x, y)));
             }
         }
 
-        Godot.Timer timer = new();
-        timer.Timeout += timeout;
-        timer.Autostart = true;
-        timer.WaitTime = 0.2;
-        AddChild(timer);
+        foreach (VoxelChunk chunk in chunks)
+        {
+            Terrain.GenerateChunkTerrain(chunk);
+            Terrain.BuildChunk(chunk);
+        }
+
+        // Godot.Timer timer = new();
+        // timer.Timeout += timeout;
+        // timer.Autostart = true;
+        // timer.WaitTime = 0.2;
+        // AddChild(timer);
 
         BlockRegistry.PrintItems();
     }
 
-    Vector3I pos = Vector3I.Zero;
-    int current = 4;
+    // Vector3I pos = Vector3I.Zero;
+    // int current = 4;
     
-    public async void timeout()
-    {
-        current = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.DefaultBlock.ItemName).ID;
+    // public async void timeout()
+    // {
+    //     current = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.DefaultBlock.ItemName).ID;
         
-        foreach (VoxelChunk chunk in chunks)
-        {
-            Terrain.SetBlockLocal(chunk, pos, current, 0);
-        }
+    //     foreach (VoxelChunk chunk in chunks)
+    //     {
+    //         Terrain.SetBlockLocal(chunk, pos, current, 0);
+    //         Terrain.BuildChunk(chunk);
+    //     }
 
-        pos.X += 1;
-        if (pos.X >= 16)
-        {
-            pos.X = 0;
-            pos.Z++;
-        }
+    //     pos.X += 1;
+    //     if (pos.X >= 16)
+    //     {
+    //         pos.X = 0;
+    //         pos.Z++;
+    //     }
 
-        if (pos.Z >= 16)
-        {
-            pos.Z = 0;
-            pos.Y++;
-        }
-    }
+    //     if (pos.Z >= 16)
+    //     {
+    //         pos.Z = 0;
+    //         pos.Y++;
+    //     }
+    // }
 }

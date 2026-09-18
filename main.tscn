@@ -4,16 +4,39 @@
 [ext_resource type="PackedScene" uid="uid://dsl2m6od34f7c" path="res://Scripts/PlayerControlers/freecam_controler.tscn" id="2_0xm2m"]
 [ext_resource type="Material" uid="uid://b6gfwtmqjm7kp" path="res://Scripts/Voxels/ChunkMaterials/solid_block.material" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://bi8tlw0juew1x" path="res://Scripts/TerrainGeneration/terrain.tscn" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://ciqhclojwqfwe" path="res://Scripts/TerrainGeneration/Generators/TerrainVoxelTerra.cs" id="5_lquwl"]
 
-[sub_resource type="Environment" id="Environment_r0li4"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_272bh"]
+sky_top_color = Color(0.4291617, 0.62449795, 0.8164716, 1)
+ground_bottom_color = Color(0.64705884, 0.654902, 0.67058825, 1)
+sun_angle_max = 0.0
+
+[sub_resource type="Sky" id="Sky_7mycd"]
+sky_material = SubResource("ProceduralSkyMaterial_272bh")
+
+[sub_resource type="Environment" id="Environment_lquwl"]
+background_mode = 2
+sky = SubResource("Sky_7mycd")
+tonemap_mode = 2
+ssao_enabled = true
+glow_bloom = 0.46
+fog_enabled = true
+fog_mode = 1
+fog_density = 1.0
+fog_sky_affect = 0.0
+fog_depth_end = 637.3
 
 [sub_resource type="BoxMesh" id="BoxMesh_0t2qn"]
+
+[sub_resource type="Resource" id="Resource_nh5ws"]
+script = ExtResource("5_lquwl")
+metadata/_custom_type_script = "uid://ciqhclojwqfwe"
 
 [node name="Main" type="Node3D" unique_id=1386321590]
 script = ExtResource("1_ig7tw")
 
 [node name="FreecamControler" parent="." unique_id=224436730 instance=ExtResource("2_0xm2m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.70172)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 29.099571, 6.70172)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="FreecamControler" unique_id=90024393]
 
@@ -22,10 +45,11 @@ transform = Transform3D(0.96822757, 0.21576433, -0.12641655, 0, 0.5055231, 0.862
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=877239316]
-environment = SubResource("Environment_r0li4")
+environment = SubResource("Environment_lquwl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=991031423]
 mesh = SubResource("BoxMesh_0t2qn")
 surface_material_override/0 = ExtResource("3_h2yge")
 
 [node name="Terrain" parent="." unique_id=1206436680 instance=ExtResource("4_1bvp3")]
+terrainGenerator = SubResource("Resource_nh5ws")

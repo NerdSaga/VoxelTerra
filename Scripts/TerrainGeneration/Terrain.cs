@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Godot;
 using VoxelTerra.Voxels;
+using VoxelTerra.TerrainGeneration.Generators;
 
 namespace VoxelTerra.TerrainGeneration;
 
@@ -13,6 +14,7 @@ public partial class Terrain : Node3D
 {
 
     private static Terrain instance;
+    [Export] private TerrainGenerator terrainGenerator = new TerrainFlat();
     private VoxelChunkBuilder chunkBuilder;
     private Dictionary<string, VoxelChunk> chunks = new();
 
@@ -26,8 +28,6 @@ public partial class Terrain : Node3D
     public static void SetBlockLocal(VoxelChunk chunk, Vector3I localPosition, int blockID, int blockVariant)
     {
         chunk.SetBlock(localPosition, blockID, blockVariant);
-
-        VoxelChunkBuilder.BuildChunk(chunk);
     }
 
     /// <summary>
@@ -49,6 +49,7 @@ public partial class Terrain : Node3D
             VoxelChunk newChunk = VoxelChunk.Create(chunkUnitPosition);
             instance.chunks[newChunk.Name] = newChunk;
             instance.AddChild(newChunk);
+            instance.terrainGenerator.Generate(newChunk); // Later we need to load from a file instead.
 
             return newChunk;
         };
@@ -82,6 +83,16 @@ public partial class Terrain : Node3D
         return instance.chunks[GetChunkName(chunkUnitPosition)];
     }
 
+    public static void GenerateChunkTerrain(VoxelChunk chunk)
+    {
+        instance.terrainGenerator.Generate(chunk);
+    }
+
+    public static void BuildChunk(VoxelChunk chunk)
+    {
+        VoxelChunkBuilder.BuildChunk(chunk);
+    }
+
     public static string GetChunkName(Vector2I chunkUnitPosition)
     {
         return $"Chunk_{chunkUnitPosition.X}_{chunkUnitPosition.Y}";
@@ -94,6 +105,11 @@ public partial class Terrain : Node3D
     public static int GetChunkCount()
     {
         return instance.chunks.Count;
+    }
+
+    public override void _Ready()
+    {
+        terrainGenerator.Init();
     }
 
     public override void _EnterTree()
