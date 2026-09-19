@@ -9,6 +9,7 @@ public partial class VTDebug : Node
 {
     private static VTDebug instance;
 
+    [Export] private Control MainControl;
     [Export] private Label FPSLabel;
     [Export] private Label GPULabel;
     [Export] private Label VSyncLabel;
@@ -48,6 +49,21 @@ public partial class VTDebug : Node
         instance = null;
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey eventKey)
+        {
+            if (eventKey.IsActionReleased("toggle_debug_menu"))
+            {
+                MainControl.Visible = !MainControl.Visible;
+            }
+        }
+    }
 
-    
+    public override void _Ready()
+    {
+        MainControl.Visible = false;
+    }
+
+
 }

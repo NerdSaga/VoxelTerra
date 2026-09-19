@@ -1,62 +1,70 @@
-[gd_scene format=3 uid="uid://b2pe4ckn0pcay"]
+[gd_scene format=3 uid="uid://djpeh77eneqlf"]
 
 [ext_resource type="Script" uid="uid://briwta3nb7kst" path="res://Main.cs" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://dsl2m6od34f7c" path="res://Scripts/PlayerControlers/freecam_controler.tscn" id="2_0xm2m"]
-[ext_resource type="Material" uid="uid://b6gfwtmqjm7kp" path="res://Scripts/Voxels/ChunkMaterials/solid_block.material" id="3_h2yge"]
-[ext_resource type="PackedScene" uid="uid://bi8tlw0juew1x" path="res://Scripts/TerrainGeneration/terrain.tscn" id="4_1bvp3"]
-[ext_resource type="Script" uid="uid://ciqhclojwqfwe" path="res://Scripts/TerrainGeneration/Generators/TerrainVoxelTerra.cs" id="5_lquwl"]
-[ext_resource type="PackedScene" uid="uid://dqoupda1jm7id" path="res://World/clouds.tscn" id="6_7mycd"]
+[ext_resource type="Texture2D" uid="uid://cj3k0wep11n30" path="res://Artwork/title.png" id="2_0xm2m"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_272bh"]
-sky_top_color = Color(0.4480505, 0.6818589, 0.8975146, 1)
-sky_horizon_color = Color(0.66844374, 0.78914297, 0.69159347, 1)
-ground_bottom_color = Color(0.5503225, 0.5634262, 0.5721522, 1)
-sun_angle_max = 0.0
-
-[sub_resource type="Sky" id="Sky_7mycd"]
-sky_material = SubResource("ProceduralSkyMaterial_272bh")
-
-[sub_resource type="Environment" id="Environment_lquwl"]
-background_mode = 2
-sky = SubResource("Sky_7mycd")
-tonemap_mode = 2
-ssao_enabled = true
-ssao_radius = 1.6
-ssao_intensity = 2.68
-glow_enabled = true
-glow_levels/1 = 1.23
-glow_levels/7 = 3.3
-glow_bloom = 0.05
-fog_enabled = true
-fog_mode = 1
-fog_density = 1.0
-fog_sky_affect = 0.0
-fog_depth_end = 361.7
-
-[sub_resource type="BoxMesh" id="BoxMesh_0t2qn"]
-
-[sub_resource type="Resource" id="Resource_nh5ws"]
-script = ExtResource("5_lquwl")
-metadata/_custom_type_script = "uid://ciqhclojwqfwe"
-
-[node name="Main" type="Node3D" unique_id=1386321590]
+[node name="Main" type="Node3D" unique_id=488444670 node_paths=PackedStringArray("SeedLineEdit", "SeedLineEditLabelError")]
 script = ExtResource("1_ig7tw")
+SeedLineEdit = NodePath("Control/SeedLineEdit")
+SeedLineEditLabelError = NodePath("Control/SeedLineEdit/ErrorLabel")
 
-[node name="FreecamControler" parent="." unique_id=224436730 instance=ExtResource("2_0xm2m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
+[node name="Control" type="Control" parent="." unique_id=1789079624]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1366.0
+offset_bottom = 768.0
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1369746597]
-transform = Transform3D(0.9682277, 0.21576436, -0.1264166, -0.049347818, 0.6604364, 0.7492589, 0.24515344, -0.7192146, 0.65010023, 0, 0, 0)
-shadow_enabled = true
+[node name="CreateWorldButton" type="Button" parent="Control" unique_id=1682282181]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 664.0
+offset_right = 291.0
+offset_bottom = 717.0
+theme_override_font_sizes/font_size = 32
+text = "Create World"
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=877239316]
-environment = SubResource("Environment_lquwl")
+[node name="SeedLineEdit" type="LineEdit" parent="Control" unique_id=1220654419]
+layout_mode = 0
+offset_left = 187.0
+offset_top = 541.0
+offset_right = 568.0
+offset_bottom = 594.0
+theme_override_font_sizes/font_size = 32
+text = "0"
+placeholder_text = "Seed"
+emoji_menu_enabled = false
+virtual_keyboard_type = 2
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=991031423]
-mesh = SubResource("BoxMesh_0t2qn")
-surface_material_override/0 = ExtResource("3_h2yge")
+[node name="ErrorLabel" type="Label" parent="Control/SeedLineEdit" unique_id=365880799]
+visible = false
+layout_mode = 0
+offset_left = 407.0
+offset_right = 581.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.9996396, 0.5401666, 0.6561879, 1)
+theme_override_font_sizes/font_size = 32
+text = "The seed must be valid number!"
 
-[node name="Terrain" parent="." unique_id=1206436680 instance=ExtResource("4_1bvp3")]
-terrainGenerator = SubResource("Resource_nh5ws")
+[node name="Title" type="Sprite2D" parent="Control" unique_id=425844597]
+position = Vector2(370.99997, 151.99998)
+scale = Vector2(0.30317464, 0.30317464)
+texture = ExtResource("2_0xm2m")
 
-[node name="Clouds" parent="." unique_id=605986175 instance=ExtResource("6_7mycd")]
+[node name="Label" type="Label" parent="Control/Title" unique_id=1896992173]
+offset_left = 653.089
+offset_top = 164.92148
+offset_right = 1045.6022
+offset_bottom = 288.92148
+theme_override_font_sizes/font_size = 90
+text = "Dev!"
+
+[node name="Label" type="Label" parent="Control" unique_id=1054339304]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 541.0
+offset_right = 179.0
+offset_bottom = 594.0
+theme_override_font_sizes/font_size = 38
+text = "Seed:"
+
+[connection signal="pressed" from="Control/CreateWorldButton" to="." method="_OnButtonPressed"]

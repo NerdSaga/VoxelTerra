@@ -14,9 +14,16 @@ public partial class Terrain : Node3D
 {
 
     private static Terrain instance;
-    [Export] private TerrainGenerator terrainGenerator = new TerrainFlat();
+    private TerrainGenerator terrainGenerator = new TerrainFlat();
     private VoxelChunkBuilder chunkBuilder;
     private Dictionary<string, VoxelChunk> chunks = new();
+
+    public static void Configure(TerrainGenerator terrainGenerator, int seed)
+    {
+        instance.terrainGenerator = terrainGenerator;
+        instance.terrainGenerator.Seed = seed;
+        instance.terrainGenerator.Init();
+    }
 
     /// <summary>
     /// Sets a block at a position local to a chunk.
@@ -105,11 +112,6 @@ public partial class Terrain : Node3D
     public static int GetChunkCount()
     {
         return instance.chunks.Count;
-    }
-
-    public override void _Ready()
-    {
-        terrainGenerator.Init();
     }
 
     public override void _EnterTree()

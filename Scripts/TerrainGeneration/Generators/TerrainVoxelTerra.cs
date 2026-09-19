@@ -69,5 +69,4 @@ public partial class TerrainVoxelTerra : TerrainGenerator
         }
     }
 
-
 }

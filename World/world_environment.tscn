@@ -23,7 +23,35 @@ gravity = Vector3(0, 0, 0)
 [sub_resource type="BoxMesh" id="BoxMesh_r0li4"]
 size = Vector3(30, 5, 30)
 
-[node name="Clouds" type="GPUParticles3D" unique_id=21270679]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_t0o6e"]
+sky_top_color = Color(0.4480505, 0.6818589, 0.8975146, 1)
+sky_horizon_color = Color(0.66844374, 0.78914297, 0.69159347, 1)
+ground_bottom_color = Color(0.5503225, 0.5634262, 0.5721522, 1)
+sun_angle_max = 0.0
+
+[sub_resource type="Sky" id="Sky_7mycd"]
+sky_material = SubResource("ProceduralSkyMaterial_t0o6e")
+
+[sub_resource type="Environment" id="Environment_ots67"]
+background_mode = 2
+sky = SubResource("Sky_7mycd")
+tonemap_mode = 2
+ssao_enabled = true
+ssao_radius = 1.6
+ssao_intensity = 2.68
+glow_enabled = true
+glow_levels/1 = 1.23
+glow_levels/7 = 3.3
+glow_bloom = 0.05
+fog_enabled = true
+fog_mode = 1
+fog_density = 1.0
+fog_sky_affect = 0.0
+fog_depth_end = 361.7
+
+[node name="Environment" type="Node3D" unique_id=550293377]
+
+[node name="Clouds" type="GPUParticles3D" parent="." unique_id=21270679]
 material_override = SubResource("StandardMaterial3D_hdrab")
 extra_cull_margin = 10000.0
 amount = 600
@@ -31,3 +59,6 @@ lifetime = 600.0
 preprocess = 600.0
 process_material = SubResource("ParticleProcessMaterial_ox2r5")
 draw_pass_1 = SubResource("BoxMesh_r0li4")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1198832691]
+environment = SubResource("Environment_ots67")

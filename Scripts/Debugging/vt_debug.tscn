@@ -2,15 +2,21 @@
 
 [ext_resource type="Script" uid="uid://b3an23fmkxm5p" path="res://Scripts/Debugging/VTDebug.cs" id="1_30beh"]
 
-[node name="VTDebug" type="Control" unique_id=742782100 node_paths=PackedStringArray("FPSLabel", "GPULabel", "VSyncLabel")]
+[node name="VTDebug" type="Control" unique_id=742782100 node_paths=PackedStringArray("MainControl", "FPSLabel", "GPULabel", "VSyncLabel")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_30beh")
-FPSLabel = NodePath("FPSLabel")
-GPULabel = NodePath("GPULabel")
-VSyncLabel = NodePath("VSyncLabel")
+MainControl = NodePath("Control")
+FPSLabel = NodePath("Control/FPSLabel")
+GPULabel = NodePath("Control/GPULabel")
+VSyncLabel = NodePath("Control/VSyncLabel")
 
-[node name="FPSLabel" type="Label" parent="." unique_id=564075134]
+[node name="Control" type="Control" parent="." unique_id=1655260643]
+anchors_preset = 0
+offset_right = 225.0
+offset_bottom = 180.0
+
+[node name="FPSLabel" type="Label" parent="Control" unique_id=564075134]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 102.0
@@ -18,7 +24,7 @@ offset_right = 87.0
 offset_bottom = 125.0
 text = "FPS: "
 
-[node name="GPULabel" type="Label" parent="." unique_id=517244949]
+[node name="GPULabel" type="Label" parent="Control" unique_id=517244949]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 37.0
@@ -26,7 +32,7 @@ offset_right = 89.0
 offset_bottom = 60.0
 text = "GPU: "
 
-[node name="VSyncLabel" type="Label" parent="." unique_id=1941925235]
+[node name="VSyncLabel" type="Label" parent="Control" unique_id=1941925235]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 69.0
