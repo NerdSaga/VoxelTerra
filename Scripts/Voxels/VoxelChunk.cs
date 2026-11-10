@@ -66,12 +66,12 @@ public partial class VoxelChunk : StaticBody3D
                 case BlockRegistryItem.BlockRenderType.TRANSPARENT:
                     return new bool[]
                     {
-                        block.ID != blockNeighbors[0].ID && blockNeighbors[0].RenderType != BlockRegistryItem.BlockRenderType.SOLID,
-                        block.ID != blockNeighbors[1].ID && blockNeighbors[1].RenderType != BlockRegistryItem.BlockRenderType.SOLID,
-                        block.ID != blockNeighbors[2].ID && blockNeighbors[2].RenderType != BlockRegistryItem.BlockRenderType.SOLID,
-                        block.ID != blockNeighbors[3].ID && blockNeighbors[3].RenderType != BlockRegistryItem.BlockRenderType.SOLID,
-                        block.ID != blockNeighbors[4].ID && blockNeighbors[4].RenderType != BlockRegistryItem.BlockRenderType.SOLID,
-                        block.ID != blockNeighbors[5].ID && blockNeighbors[5].RenderType != BlockRegistryItem.BlockRenderType.SOLID,
+                        block.ID != blockNeighbors[0].ID && blockNeighbors[0].RenderType != BlockRegistryItem.BlockRenderType.SOLID && blockNeighbors[0].RenderType != BlockRegistryItem.BlockRenderType.ALL_FACES,
+                        block.ID != blockNeighbors[1].ID && blockNeighbors[1].RenderType != BlockRegistryItem.BlockRenderType.SOLID && blockNeighbors[1].RenderType != BlockRegistryItem.BlockRenderType.ALL_FACES,
+                        block.ID != blockNeighbors[2].ID && blockNeighbors[2].RenderType != BlockRegistryItem.BlockRenderType.SOLID && blockNeighbors[2].RenderType != BlockRegistryItem.BlockRenderType.ALL_FACES,
+                        block.ID != blockNeighbors[3].ID && blockNeighbors[3].RenderType != BlockRegistryItem.BlockRenderType.SOLID && blockNeighbors[3].RenderType != BlockRegistryItem.BlockRenderType.ALL_FACES,
+                        block.ID != blockNeighbors[4].ID && blockNeighbors[4].RenderType != BlockRegistryItem.BlockRenderType.SOLID && blockNeighbors[4].RenderType != BlockRegistryItem.BlockRenderType.ALL_FACES,
+                        block.ID != blockNeighbors[5].ID && blockNeighbors[5].RenderType != BlockRegistryItem.BlockRenderType.SOLID && blockNeighbors[5].RenderType != BlockRegistryItem.BlockRenderType.ALL_FACES,
                     };
             }
 
