@@ -10,7 +10,7 @@ public partial class BlockRegistry : VTRegistry
         register(new Blocks.DefaultBlock());
         register(new Blocks.Stone());
         register(new Blocks.GrassBlock());
-        register(new Blocks.Sand());
+        register(new Blocks.SandBlock());
         register(new Blocks.DirtBlock());
         register(new Blocks.MapleLog());
         register(new Blocks.MapleLeaves());

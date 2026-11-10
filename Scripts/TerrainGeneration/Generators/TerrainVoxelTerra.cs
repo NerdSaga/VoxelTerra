@@ -17,6 +17,7 @@ public partial class TerrainVoxelTerra : TerrainGenerator
         public static int DirtBlock = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.DirtBlock.ItemName).ID;
         public static int GrassBlock = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.GrassBlock.ItemName).ID;
         public static int WaterBlock = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.WaterBlock.ItemName).ID;
+        public static int Stone = BlockRegistry.GetItem(VoxelTerra.Registries.Blocks.Stone.ItemName).ID;
     }
 
     /// <summary>
@@ -28,53 +29,54 @@ public partial class TerrainVoxelTerra : TerrainGenerator
     {
         Vector3I worldPosition = toWorldPosition(localPosition, chunk);
         int terrainHeight = (int)sampleTerrainHeight(new Vector2I(worldPosition.X, worldPosition.Z));
-        for (int y = terrainHeight; y < SeaLevel; y++)
-        {
-            Vector3I blockPosition = localPosition + new Vector3I(0, y, 0);
-            chunk.SetBlock(blockPosition, BlockIDs.WaterBlock, 0);
-        }
 
+        // Fill water.
+        // for (int y = terrainHeight; y < SeaLevel; y++)
+        // {
+        //     Vector3I blockPosition = localPosition + new Vector3I(0, y, 0);
+        //     chunk.SetBlock(blockPosition, BlockIDs.WaterBlock, 0);
+        // }
+
+        // Fill stone.
         for (int y = 0; y < terrainHeight; y++)
         {
             Vector3I blockPosition = localPosition + new Vector3I(0, y, 0);
-            if (y == terrainHeight - 1)
-            {
-                chunk.SetBlock(blockPosition, BlockIDs.GrassBlock, 0);
-                continue;
-            }
-            chunk.SetBlock(blockPosition, BlockIDs.DirtBlock, 0);
+            chunk.SetBlock(blockPosition, BlockIDs.Stone, 0);
         }
     }
     protected override void generateFeatures(VoxelChunk chunk, Vector3I localPosition)
     {
-        Vector3I worldPosition = toWorldPosition(localPosition, chunk);
-        int terrainHeight = (int)(sampleTerrainHeight(new Vector2I(worldPosition.X, worldPosition.Z)) * 50);
+        // Vector3I worldPosition = toWorldPosition(localPosition, chunk);
+        // int terrainHeight = (int)(sampleTerrainHeight(new Vector2I(worldPosition.X, worldPosition.Z)) * 50);
 
-        distributeTree(chunk, localPosition);
+        // distributeTrees(chunk, localPosition);
     }
+
     protected override void init()
     {
-        foreach (FastNoiseLite layer in terrainHeightLayers)
-        {
-            layer.Seed = Seed;
-        }
+        heightLayerMountain.Seed = Seed;
     }
 
-    private FastNoiseLite[] terrainHeightLayers =
+    private FastNoiseLite heightLayerMountain = new()
     {
-        new FastNoiseLite
-        {
-            NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex,
-        }
+        NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex,
+    };
+
+    private FastNoiseLite heightLayerValley = new()
+    {
+        NoiseType = FastNoiseLite.NoiseTypeEnum.SimplexSmooth,
     };
 
     private float sampleTerrainHeight(Vector2I position)
     {
-        float noise = terrainHeightLayers[0].GetNoise2D(position.X, position.Y) * 30;
-        return noise + SeaLevel;
+        float noiseMountain = ((heightLayerMountain.GetNoise2D(position.X, position.Y) + 1) * 0.5f) * 80;
+        float noiseValley = ((heightLayerValley.GetNoise2D(position.X, position.Y) + 1) * 0.5f) * 6;
+        // Use mix to mask between mountains and valleys...
+        float mix = 1;
+        return (noiseValley * mix) + (noiseMountain * ((mix * -1) + 1));
     }
 
-    private void distributeTree(VoxelChunk chunk, Vector3I localPosition)
+    private void distributeTrees(VoxelChunk chunk, Vector3I localPosition)
     {
         Vector3I worldPosition = toWorldPosition(localPosition, chunk);
         int terrainHeight = (int)sampleTerrainHeight(new Vector2I(worldPosition.X, worldPosition.Z));
