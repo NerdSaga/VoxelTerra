@@ -54,26 +54,73 @@ public partial class TerrainVoxelTerra : TerrainGenerator
 
     protected override void init()
     {
-        heightLayerMountain.Seed = Seed;
+        // heightLayerMountain.Seed = Seed;
+        // heightLayerValley.Seed = Seed;
+        // layerMix.Seed = Seed;
+        mountainNoise.Seed = Seed;
     }
 
-    private FastNoiseLite heightLayerMountain = new()
-    {
-        NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex,
-    };
+    // private FastNoiseLite heightLayerMountain = new()
+    // {
+    //     NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex,
+    // };
 
-    private FastNoiseLite heightLayerValley = new()
-    {
-        NoiseType = FastNoiseLite.NoiseTypeEnum.SimplexSmooth,
-    };
+    // private FastNoiseLite heightLayerValley = new()
+    // {
+    //     NoiseType = FastNoiseLite.NoiseTypeEnum.SimplexSmooth,
+    // };
+
+    // private FastNoiseLite layerMix = new()
+    // {
+    //     NoiseType = FastNoiseLite.NoiseTypeEnum.Perlin,
+    //     FractalOctaves = 1,
+    //     Frequency = 0.01f,
+    // };
+
+    private FastNoiseLite mountainNoise = GD.Load<FastNoiseLite>("uid://ds02fuyuyl3qq");
+    private FastNoiseLite valleyNoise = GD.Load<FastNoiseLite>("uid://bx238e5j32q5q");
+
 
     private float sampleTerrainHeight(Vector2I position)
     {
-        float noiseMountain = ((heightLayerMountain.GetNoise2D(position.X, position.Y) + 1) * 0.5f) * 80;
-        float noiseValley = ((heightLayerValley.GetNoise2D(position.X, position.Y) + 1) * 0.5f) * 6;
-        // Use mix to mask between mountains and valleys...
-        float mix = 1;
-        return (noiseValley * mix) + (noiseMountain * ((mix * -1) + 1));
+
+
+        // float mountainHeight = mountainNoise.GetNoise2D(position.X, position.Y) - 0.3f;
+        // if ( mountainHeight < 0)
+        // {
+        //     mountainHeight = 0;
+        // }
+
+        // float mountainHeightMask = (mountainHeight - 0.5f) * -1 + 0.5f;
+        float mountainSpread = 1;
+
+        // Create mountainHeight and mountain mask.
+        float mountainHeight = (mountainNoise.GetNoise2D(position.X, position.Y) - 0.5f) * mountainSpread + 0.5f;
+        if (mountainHeight < 0)
+        {
+            mountainHeight = 0;
+        }
+
+        float mountainMask = mountainHeight;
+        if (mountainMask > 0)
+        {
+            mountainMask = 1;
+        }
+
+        mountainHeight = mountainHeight * 30;
+
+
+
+
+        // Create valley height.
+        float valleyHeight = valleyNoise.GetNoise2D(position.X, position.Y) * 5;
+
+        float worldHeight = 10 + mountainHeight + ((mountainMask * -1 + 1) * valleyHeight);
+
+        return worldHeight;
+
+        return valleyHeight * 10;
+
     }
 
     private void distributeTrees(VoxelChunk chunk, Vector3I localPosition)

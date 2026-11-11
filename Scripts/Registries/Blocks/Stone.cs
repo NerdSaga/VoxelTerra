@@ -12,7 +12,7 @@ public class Stone : BlockRegistryItem, IVTRegistryItem
     public Stone() : base(ItemName)
     {
         RenderType = BlockRenderType.SOLID;
-        CollisionType = BlockCollisionType.VOID;
+        CollisionType = BlockCollisionType.SOLID;
 
         SetVariants(new BlockVariant[]
         {

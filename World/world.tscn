@@ -55,6 +55,7 @@ fog_depth_end = 392.2
 [node name="World" type="Node3D" unique_id=778398221]
 script = ExtResource("1_j8job")
 Seed = 3501
+WorldSize = 8
 
 [node name="FreecamControler" parent="." unique_id=224436730 instance=ExtResource("1_62w18")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 82.60733, 0)
